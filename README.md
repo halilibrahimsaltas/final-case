@@ -1,3 +1,3 @@
 # Final-Case
 
-###New Mind Fullstack Bootcamp
+New Mind Fullstack Bootcamp
