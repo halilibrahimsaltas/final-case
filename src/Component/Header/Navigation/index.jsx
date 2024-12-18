@@ -3,9 +3,10 @@ import { FiMenu } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { FaAngleRight } from "react-icons/fa";
 
 const Navigation = () => {
-  const [isOpenSidebar, setisopenSidebarVal] = useState(true);
+  const [isOpenSidebarVal, setIsOpenSidebarVal] = useState(false);
 
   return (
     <nav>
@@ -13,7 +14,10 @@ const Navigation = () => {
         <div className="row">
           <div className="col-sm-3 navPart1">
             <div className="catWrapper">
-              <Button className="allCatTab align-items-center" onClick={()=>isOpenSidebarNav(!isOpenSidebarVal)}>
+              <Button
+                className="allCatTab align-items-center"
+                onClick={() => setIsOpenSidebarVal(!isOpenSidebarVal)}
+              >
                 <span className="icon1 mb-1 mr-2">
                   <FiMenu />
                 </span>
@@ -22,28 +26,108 @@ const Navigation = () => {
                   <FaAngleDown />
                 </span>
               </Button>
-              <div className={"sidebarNav ${isOpenSidebarVal===true ? 'open' : ''}"}>
+              <div className={`sidebarNav ${isOpenSidebarVal ? "open" : ""}`}>
                 <ul>
                   <li>
                     <Link to="/">
-                      <Button>Fashion</Button>
+                      <Button>Fashion<FaAngleRight className="ml-auto" /></Button>
                     </Link>
+                    <div className="submenu">
+                      <Link to="/">
+                        <Button>Clothing</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Shoes</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Personal Care</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Accessories</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Personal Care</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Accessories</Button>
+                      </Link>
+                    </div>
                   </li>
                   <li>
                     {" "}
                     <Link to="/">
-                      <Button>Electroincs</Button>
+                      <Button>Electroincs<FaAngleRight className="ml-auto" /></Button>
                     </Link>
+                    <div className="submenu">
+                      <Link to="/">
+                        <Button>Clothing</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Shoes</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Personal Care</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Accessories</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Personal Care</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Accessories</Button>
+                      </Link>
+                    </div>
                   </li>
                   <li>
                     <Link to="/">
                       <Button>Market</Button>
                     </Link>
+                    <div className="submenu">
+                      <Link to="/">
+                        <Button>Clothing</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Shoes</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Personal Care</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Accessories</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Personal Care</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Accessories</Button>
+                      </Link>
+                    </div>
                   </li>
                   <li>
                     <Link to="/">
                       <Button>Gift</Button>
                     </Link>
+                    <div className="submenu">
+                      <Link to="/">
+                        <Button>Clothing</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Shoes</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Personal Care</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Accessories</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Personal Care</Button>
+                      </Link>
+                      <Link to="/">
+                        <Button>Accessories</Button>
+                      </Link>
+                    </div>
                   </li>
                   <li>
                     <Link to="/">
