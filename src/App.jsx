@@ -4,6 +4,8 @@ import { BrowserRouter,Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import Header from './Component/Header';
 import axios from 'axios';
+import Footer from './Component/Footer';
+import Listing from './Pages/Listing';
 
 function App() {
 
@@ -12,8 +14,11 @@ function App() {
       <BrowserRouter>
       <Header/>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" exact={true} element={<Home />} />
+        <Route path="/cat/:id" exact={true} element={<Listing />} />
+
       </Routes>
+      <Footer/>
       </BrowserRouter>
     </>
   )

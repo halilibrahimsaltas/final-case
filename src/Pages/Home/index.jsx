@@ -12,6 +12,7 @@ import banner2 from "../../assets/images/back2.webp"
 import "swiper/css";
 import "swiper/css/scrollbar";
 
+
 const Home = () => {
   return (
     <>
@@ -190,6 +191,8 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+     
     </>
   );
 };

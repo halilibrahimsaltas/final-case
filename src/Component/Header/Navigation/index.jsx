@@ -56,7 +56,7 @@ const Navigation = () => {
                   <li>
                     {" "}
                     <Link to="/">
-                      <Button>Electroincs<FaAngleRight className="ml-auto" /></Button>
+                      <Button>Electronics<FaAngleRight className="ml-auto" /></Button>
                     </Link>
                     <div className="submenu">
                       <Link to="/">
@@ -188,7 +188,7 @@ const Navigation = () => {
               </li>
               <li className="list-inline-item">
                 <Link to="/">
-                  <Button>Electroincs</Button>
+                  <Button>ELECTRONICS</Button>
                 </Link>
                 <div className="submenu shadow">
                   <Link to="/">

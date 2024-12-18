@@ -11,12 +11,13 @@ const  HomeBanner= ()=>{
         arrows:true, 
         autoplay:true
       };
-    return(
-         <div className="homeBannerSection">
+    return( 
+          <div className=" mt-3"> 
+          <div className="homeBannerSection">
            <Slider {...settings}>
              <div className="item">
             
-              <img src="https://aimg.kwcdn.com/cart/1f193487540/a9aaf4f5-c017-4941-a81d-4483b56e2701.png?imageView2/q/100!/format/webp" className="w-100" />
+              <img src="https://m.media-amazon.com/images/I/71CtV-IknvL._SX3000_.jpg" className="w-100" />
 
               </div>    
 
@@ -34,15 +35,26 @@ const  HomeBanner= ()=>{
               </div> 
               <div className="item">
             
-            <img src="https://aimg.kwcdn.com/cart/1f193487540/a9aaf4f5-c017-4941-a81d-4483b56e2701.png?imageView2/q/100!/format/webp" className="w-100" />
+            <img src="https://m.media-amazon.com/images/I/71Tfszeu0DL._SX3000_.jpg" className="w-100" />
 
             </div>   
               <div className="item">
                  <img src="https://m.media-amazon.com/images/I/71rt87Bh8xL._SX3000_.jpg" className="w-100" />   
               
               </div> 
+              <div className="item">
+                 <img src="https://m.media-amazon.com/images/I/71zpBcCjKPL._SX3000_.jpg" className="w-100" />   
+              
+              </div> 
+              <div className="item">
+                 <img src="https://m.media-amazon.com/images/I/61lwJy4B8PL._SX3000_.jpg" className="w-100" />   
+              
+              </div> 
            </Slider>
          </div>
+
+          </div>
+        
         
     )
 }
