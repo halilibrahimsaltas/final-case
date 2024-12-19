@@ -11,6 +11,8 @@ import SignIn from './Pages/SignIn';
 import { useState } from "react";
 import MyContext from './context/MyContext';
 import SignUp from './Pages/SignUp';
+import Dashboard from "./Pages/Dashboard";
+import ProcductUpload from './Pages/ProductUpload';
 
 
 function App() {
@@ -38,7 +40,9 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/signIn" element={<SignIn />} />
             <Route path="/signUp" element={<SignUp />} />
-            
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/product/upload" element={<ProcductUpload />} />
+
           </Routes>
         {isHeaderFooterShow===true && <Footer />}
         </MyContext.Provider>

@@ -7,7 +7,7 @@
 
 *{margin: 0px; padding: 0px;}
 
-body{font-family: "Nunito Sans", sans-serif;font-size: 16px;color: rgba(0,0,0,0.8);overflow-x: hidden;}
+body{font-family: "Nunito Sans", sans-serif  ;font-size: 16px;color: rgba(0,0,0,0.8);overflow-x: hidden;}
 
 .bg-purple{background: #7a55c1;}
 
@@ -18,7 +18,7 @@ body{font-family: "Nunito Sans", sans-serif;font-size: 16px;color: rgba(0,0,0,0.
 .headerWrapper .top-strip{padding: 8px 0px;}
 .headerWrapper .top-strip p{color: #fff;font-size:  18px; font-weight: 500;}
 
-.headerWrapper .header{width: 100%; height: auto; padding: 15px 0px;}
+.headerWrapper .header{width: 100%; height: auto; padding: 15px 0px; }
 .logoWrapper img{  width: 60px; /* Adjust to your preferred size */
   height: 60px;margin-left: -120px;}
 
@@ -29,7 +29,6 @@ body{font-family: "Nunito Sans", sans-serif;font-size: 16px;color: rgba(0,0,0,0.
     margin-left: -40px;
 
   }
-
 header .headerSearch{width: 60%; height: 60px; background: #f3f4f7; padding: 10px;position: relative;border-radius: 10px;border: 1px solid rgba(0, 0, 0, 0.1);}
 
 header .headerSearch input{background: transparent !important; outline: none !important; font-size: 14px ;color: rgba(0,0,0,0.8);width: 100%; height: 40px;border:  0px !important; padding: 0px 20px !important;}
@@ -341,16 +340,57 @@ a:hover{text-decoration: none;}
   width: 100%;
 }
 
+/*Dashboard*/
+
+.main .sidebarWrapper{ width: 40%; flex: 0 0 40%; transition: all 0.3s ease-in-out;margin-left: 150px;}
+.main .sidebarWrapper .sidebar{width: 40%; height: 100vh;top: 220px ;left: 0px;background: #fff; }
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper{margin-bottom: 0px;}
+.main .sidebarWrapper .sidebar .dashSideBarWrapper li{list-style: none; }
+.main .sidebarWrapper .sidebar .dashSideBarWrapper li button{color: rgba(0, 0, 0, 0.7);text-align: left;justify-content: left;border-radius: 10px !important;padding: 12px 15px !important; font-weight: 600 !important;font-family: "Nunito Sans", sans-serif  !important;font-size: 15px;}
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper li button .icon{
+  display: flex; align-items: center;justify-content: center;width:25px ;height: 25px; margin-right: 15px;text-align: center;
+}
+.main .sidebarWrapper .sidebar .dashSideBarWrapper li button .icon svg{font-size: 22px;color: #000; opacity: 0.8;}
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper li button .arrow{
+  margin-left: auto;display: flex;align-items: center;justify-content: center;width: 25px;height: 25px;transition:  all 0.3s ease-in-out;
+}
+.main .sidebarWrapper .sidebar .dashSideBarWrapper li button.active{background: #f1f1f1;}
+.main .sidebarWrapper .sidebar .dashSideBarWrapper li button:hover{background:#f1f1f1 !important ;}
+.main .sidebarWrapper .sidebar .dashSideBarWrapper li button.active .arrow{transform: rotate(90deg);}
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenu{padding: 0px 45px;position: relative;height: 0px;transition: all 0.3s ;}
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenu::before{content: ''; width: 1px;height: 95%; position: absolute; top: 0px; left: 25px; background: rgba(0, 0, 0, 0.1);}
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenu li{width: 100%; list-style: none;}
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenu li a{color: #5e5d72 !important; text-decoration: none;display: block; padding: 6px 0px ;font-size: 14px; font-weight: 500;transition: all 0.3s ease-in-out;}
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenu li a:hover{color: #7a55c1 !important;}
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenuWrapper{transition: all 0.3s ;height: 0px;overflow: hidden;}
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenuWrapper.colapsed .subMenu{opacity: 0;}
+
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenuWrapper.colapse{height: auto;overflow: inherit;}
+.main .sidebarWrapper .sidebar .dashSideBarWrapper .subMenuWrapper.colapse .subMenu{opacity: 1;height: auto;}
+
+.logoutWrapper{width: 100%;height: 100px;padding: 25px; background: #ebcef5;border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;}
+.logoutWrapper button{background: #7a55c1; color: #fff; border-radius: 30px; font-weight: 600; text-transform:uppercase;font-size: 13px;}
+
+.logoutWrapper button svg{margin-right: 5px;font-size: 15px !important;}
 
 
+/*Dashboard Content*/
+
+.card{margin:20px 0px ;border-radius: 10px;}
+.card .hd{font-size: 18px; font-weight: bold; color: #403e57;}
 
 
+.cardFilters .col h4{font-size: 18px; font-weight: 600;text-transform: capitalize;}
 
-
-
-
-
-
+.main .content{margin-left: -300px;margin-right: 300px;}
 
 
 
