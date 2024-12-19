@@ -6,6 +6,7 @@ import Header from './Component/Header';
 import axios from 'axios';
 import Footer from './Component/Footer';
 import Listing from './Pages/Listing';
+import ProductDetails from './Pages/ProductDetails';
 
 function App() {
 
@@ -16,6 +17,8 @@ function App() {
       <Routes>
         <Route path="/" exact={true} element={<Home />} />
         <Route path="/cat/:id" exact={true} element={<Listing />} />
+        <Route path="/product/:id" exact={true} element={<ProductDetails />} />
+
 
       </Routes>
       <Footer/>

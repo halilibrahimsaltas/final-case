@@ -6,9 +6,9 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 
 
-const ProductItem = ()=>{
+const ProductItem = (props)=>{
     return(
-    <div className="item productItem">
+    <div className={`item productItem ${props.itemView}`}>
         <div className="imgWrapper">
           <img
             src="https://m.media-amazon.com/images/I/419kQt6LLNL._AC_SY200_.jpg"
