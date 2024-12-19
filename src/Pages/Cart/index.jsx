@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import QuantityBox from "../../Component/QuantityBox";
 import { IoClose } from "react-icons/io5";
+import { Button } from "@mui/material";
+
+import { FaRegCreditCard } from "react-icons/fa";
 
 
 const Cart = () => {
@@ -8,13 +11,12 @@ const Cart = () => {
     <>
       <section className="section cartPage">
         <div className="container"> 
-            <h2 className="hd mb-0">Your Cart</h2>
+            <h2 className="hd mb-1">Your Cart</h2>
               <p>
-                There are <b>3</b> products in your cart.
+                There are <b className="text-red">3</b> products in your cart.
               </p>
           <div className="row">
-            <div className="col-md-8">
-             
+            <div className="col-md-9 pr-5">
               <div className="table-responsive">
                 <table className="table table-striped">
                   <thead>
@@ -125,7 +127,32 @@ const Cart = () => {
                 </tbody>
               </div>
             </div>
-            <div className="col-md-4"></div>
+            <div className="col-md-3">
+                <div className="card border p-3 cartDetails">
+                    <h4>CART TOTALS</h4>
+
+                    <div className="d-flex align-items-center mb-3">
+                        <span>Subtotal</span>
+                        <span className="ml-auto text-red font-weight-bold">$24.42</span>
+
+                    </div>
+
+                    <div className="d-flex align-items-center mb-3">
+                        <span>Shipping</span>
+                        <span className="ml-auto "><b>Free</b></span>
+
+                    </div>
+                    <div className="d-flex align-items-center mb-3">
+                        <span>Total</span>
+                        <span className="ml-auto text-red font-weight-bold">$24.42</span>
+
+                    </div>
+                    <br />
+
+                    <Button className='btn-purple btn-lg btn-big ' variant="outlined"> <FaRegCreditCard /> &nbsp; Payment</Button>
+
+                </div>
+            </div>
           </div>
         </div>
       </section>
