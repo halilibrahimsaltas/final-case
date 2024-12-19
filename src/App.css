@@ -304,6 +304,43 @@ a:hover{text-decoration: none;}
 .text-purple{color: #7a55c1 !important;}
 
 
+/*SignIn Page*/
+
+.section .sign{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #f8f9fa; /* Light background color */
+}
+
+.signIn .container {
+  max-width: 500px;
+  padding: 20px;
+  background-color: #ffffff; /* White background for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for some depth */
+  border-radius: 8px; /* Rounded corners */
+}
+
+.signIn .hd {
+  margin-bottom: 20px;
+  font-size: 30px;
+  text-align: center;
+  font-weight: 600;
+  color: #7a55c1;
+}
+
+.signIn .row .form{padding: 20px 30px;
+
+}
+.signIn .form-group {
+  margin-bottom: 15px;
+}
+
+.signIn .btn-primary {
+  width: 100%;
+}
+
 
 
 
