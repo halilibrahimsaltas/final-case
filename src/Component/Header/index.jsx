@@ -5,8 +5,13 @@ import { BsBasket3Fill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa6";
 import SearchBox from './SearchBox';
 import Navigation from "./Navigation";
+import { useContext } from "react";
+import MyContext from '../../context/MyContext';
 
 const Header = () => {
+
+  const context = useContext(MyContext);
+
   return (
     <>
       <div className="headerWrapper">
@@ -36,11 +41,19 @@ const Header = () => {
         
 
                 <div className="part3 d-flex align-items-center ml-auto">
+
                     <div className="position-relative  d-flex align-items-center">
+                      
                      <Button className="cartTab mr-3 "><BsBasket3Fill /></Button>
                       <span className="count d-flex align-items-center   justify-content-center">1</span>
                     </div>
-                     <Button className="circle ml-2"><FaUser /></Button>
+                
+                     {context.isLogin===true ? <Link to="/signIn"> <Button className="btn-purple btn-lg btn-round btn-big w-100 mt-3 mb-2 ml-4 ">Sign In</Button>
+                    </Link> : <Button className="circle ml-2"><FaUser /></Button>}
+                     
+                    
+
+
                 </div>
 
 

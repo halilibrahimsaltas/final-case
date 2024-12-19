@@ -8,17 +8,22 @@ import Listing from './Pages/Listing';
 import ProductDetails from './Pages/ProductDetails';
 import Cart from './Pages/Cart';
 import SignIn from './Pages/SignIn';
-import { createContext, useState } from "react";
+import { useState } from "react";
 import MyContext from './context/MyContext';
+import SignUp from './Pages/SignUp';
 
 
 function App() {
 
   const [isHeaderFooterShow, setIsHeaderFooterShow] = useState(true);
+  const [isLogin, setIsLogin] = useState(true);
 
   const values = {
     isHeaderFooterShow,
     setIsHeaderFooterShow,
+    isLogin,
+    setIsLogin
+    
   };
 
   return (
@@ -32,6 +37,7 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/signIn" element={<SignIn />} />
+            <Route path="/signUp" element={<SignUp />} />
             
           </Routes>
         {isHeaderFooterShow===true && <Footer />}
