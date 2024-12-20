@@ -31,7 +31,7 @@ const Header = () => {
                 <Link to={"/"}>
                   <img src={Logo} alt="Logo" />
                 </Link>
-                <span class="logoName">Purple Market</span>
+                <span className="logoName">Purple Market</span>
               </div>
               
              

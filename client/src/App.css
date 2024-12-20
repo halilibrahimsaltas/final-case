@@ -395,9 +395,9 @@ a:hover{text-decoration: none;}
 .h1 .h2 .h3 .h4 .h5 .h6{ color: #403e57;}
 .table .thead-dark th{background-color: #7a55c1 !important; border-color: rgba(0, 0, 0, 0.1) !important;font-size: 13px !important;width: 160px;}
 
-.table tbody td{font-size: 13px !important;color: 403e57 !important;font-weight: 500; }
+.table tbody td{font-size: 13px !important;color: 403e57 !important;font-weight: 500; justify-items: center !important; }
 
-.table tbody .actions button{min-width: 40px !important;width: 40px !important; height: 40px !important; margin: 0px 11px;}
+.table tbody .actions button{min-width: 40px !important;width: 40px !important; height: 40px !important; margin: 0px 11px;  justify-items: center !important;}
 
 .table tbody .actions button svg{font-size: 20px !important;margin-left: 5px !important;}
 
@@ -417,6 +417,8 @@ table.v-align td .infoName h6{font-size: 13px; line-height: 18px;overflow: hidde
 .form .form-group input,form .form-group textarea{background: #fafafa;width: 100%; outline: none !important;border: 1px solid rgba(0, 0, 0, 0.1) !important; height: 40px; padding-left: 15px; border-radius: 5px; font-size: 14px;}
 
 form .form-group textarea{height: 120px; padding-top: 15px;}
+
+.editModal .css-10d30g3-MuiPaper-root-MuiDialog-paper{width: 500px !important;}
 
 
 

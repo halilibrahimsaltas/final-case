@@ -21,7 +21,7 @@ const Navigation = () => {
                 <span className="icon1 mb-1 mr-2">
                   <FiMenu />
                 </span>
-                <span class="text">ALL CATEGORIES</span>
+                <span className="text">ALL CATEGORIES</span>
                 <span className="icon2 mb-1 ml-1">
                   <FaAngleDown />
                 </span>

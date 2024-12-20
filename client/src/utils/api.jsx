@@ -1,7 +1,6 @@
 import axios from "axios";
-require('dotenv').config();
 
-const baseURL = process.env.REACT_APP_API_URL || "http://localhost:4000";
+const baseURL =  "http://localhost:4000";
 
 export const fetchDataFromApi = async (url) => {
     try {
@@ -22,4 +21,27 @@ export const postData = async (url, data) => {
         return { error: error.message };
     }
 };
+
+export const editData = async (url, updatedData) => {
+    try {
+        const response = await axios.put(`${baseURL}${url}`, updatedData);
+        return response.data;
+    } catch (error) {
+        console.error(error.message);
+        return { error: error.message };
+    }
+};
+
+
+export const deleteData = async (url, id) => {
+    try {
+        const response = await axios.delete(`${baseURL}${url}${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(error.message);
+        return { error: error.message };
+    }
+};
+
+
 

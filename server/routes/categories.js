@@ -1,6 +1,7 @@
 const {Category} = require('../models/category');
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 router.get(`/`, async (req, res) => {
     const categoryList = await Category.find();
@@ -16,6 +17,27 @@ router.get(`/`, async (req, res) => {
         res.status(500).json({success: false, error: error.message});
     }
 });
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    // Validate ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: "Invalid ID format." });
+    }
+
+    try {
+        const category = await Category.findById(id);
+        if (!category) {
+            return res.status(404).json({ error: "Category not found." });
+        }
+        res.json(category);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Server error." });
+    }
+});
+
+
 router.post(`/create`, async (req, res) => {
     let category = new Category({
         name: req.body.name,
@@ -74,7 +96,5 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({success: false, error: error.message});
     }
 });
-
 module.exports = router;
 
-//http:\\localhost\4000\api\users

@@ -15,7 +15,9 @@ import Dashboard from "./Pages/Dashboard";
 import ProcductUpload from './Pages/ProductUpload';
 import ProductList from './Pages/ProductList';
 import CategoryAdd from './Pages/CategoryAdd';
-require('dotenv').config();
+import CategoryList from './Pages/CategoryList';
+
+
 
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
             <Route path="/product/list" element={<ProductList />} />
             <Route path="/product/upload" element={<ProcductUpload />} />
             <Route path="/category/add" element={<CategoryAdd />} />
+            <Route path="/category/list" element={<CategoryList />} />
+
 
 
           </Routes>

@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const product = await Product.findById(req.params.id).populate("category");
   if (!product) {
-    res.status(500).json({ success: false });
+    return res.status(500).json({ success: false });
   }
   res.send(product);
 });
@@ -67,7 +67,7 @@ router.put("/:id", async (req, res) => {
 );
 // Delete a product
 router.delete("/:id", (req, res) => {
-  Product.findByIdAndRemove(req.params.id)
+  Product.findByIdAndDelete(req.params.id)
     .then((product) => {
       if (product) {
         return res
