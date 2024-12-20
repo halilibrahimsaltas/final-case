@@ -19,6 +19,8 @@ const CategoryList = () => {
   const [showBy, setShowBy] = useState("");
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState(null);
+  const[error_,setError]= useState(false);
+  const[success_,setSuccess]=useState(false);
 
   const [formFields, setformFields] = useState({
     name: "",
@@ -44,6 +46,8 @@ const CategoryList = () => {
   };
 
   const editCat = (id) => {
+    setError(false);
+    setSuccess(false);
     setformFields({
         name: ''
       });
@@ -68,10 +72,12 @@ const CategoryList = () => {
   const categoryEditFunc = (e) => {
     e.preventDefault();
 
-    editData(`/api/categories/${editId}`,formFields)
+    if(formFields.name!==""){
+      editData(`/api/categories/${editId}`,formFields)
       .then((data) => {
          fetchDataFromApi("/api/categories")
        .then((data) => {
+        setSuccess(true);
         setCatData(data);
         setOpen(false);
       })
@@ -79,6 +85,12 @@ const CategoryList = () => {
       .catch((error) => {
         console.log(error);
       });
+    } else{
+      setError(true);
+
+    }
+
+    
   };
 
   const deleteCat = (id)=>{
@@ -190,6 +202,10 @@ const CategoryList = () => {
           }}
         >
           <DialogTitle>Edit Category</DialogTitle>
+           {error_===true &&  
+            <p className="text-danger d-flex justify-content-center">Please fill all the fields !</p>
+           }
+           {success_===true && <p className="text-success d-flex justify-content-center" >Successfully !</p>}
           
             <DialogContent>
               <TextField

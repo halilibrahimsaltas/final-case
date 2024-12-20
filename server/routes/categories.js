@@ -10,7 +10,7 @@ router.get(`/`, async (req, res) => {
     try {
 
         const page = parseInt(req.query.page) || 1 ;
-        const perPage = 5;
+        const perPage = 8;
         const totalPosts = await Category.countDocuments();
         const totalPages = Math.ceil(totalPosts/perPage);
 
@@ -61,9 +61,8 @@ router.get('/:id', async (req, res) => {
 
 router.post(`/create`, async (req, res) => {
     let category = new Category({
-        name: req.body.name,
-        icon: req.body.icon,
-        color: req.body.color
+        name: req.body.name
+       
     });
 
     category = await category.save();
@@ -84,9 +83,8 @@ router.put('/:id', async (req, res) => {
     const category = await Category.findByIdAndUpdate(
         req.params.id,
         {
-            name: req.body.name,
-            icon: req.body.icon,
-            color: req.body.color
+            name: req.body.name
+          
         },
         { new: true }
     );

@@ -32,10 +32,10 @@ router.post("/create", async (req, res) => {
       images: req.body.images,
       brand: req.body.brand,
       price: req.body.price,
+      oldPrice:req.body.oldPrice,
       category: req.body.category,
       countInStock: req.body.countInStock,
       rating: req.body.rating,
-      numReviews: req.body.numReviews,
       isFeatured: req.body.isFeatured,
     });
     product = await product.save();
@@ -55,10 +55,10 @@ router.put("/:id", async (req, res) => {
         images: req.body.images,
         brand: req.body.brand,
         price: req.body.price,
+        oldPrice:req.body.oldPrice,
         category: req.body.category,
         countInStock: req.body.countInStock,
         rating: req.body.rating,
-        numReviews: req.body.numReviews,
         isFeatured: req.body.isFeatured,
         }, { new: true });
     if (!product) return res.status(500).send("the product cannot be updated!");

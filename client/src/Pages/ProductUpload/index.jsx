@@ -6,9 +6,35 @@ import Select from "@mui/material/Select";
 import { BsCloudUploadFill } from "react-icons/bs";
 
 const ProcductUpload = () => {
-  const [showBy, setshowBy] = useState("");
-
+  const [catData, setCatData] = useState([]);
   const [categoryVal, setcategoryVal] = useState("");
+  const [error_,setError]= useState(false);
+  const [success_,setSuccess]=useState(false);
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+      fetchDataFromApi("/api/categories/")
+        .then((data) => {
+          console.log(data);
+          setCatData(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, []);
+  
+  
+  const [formFields, setFormFields]= useState({
+    name:'',
+    description:'',
+    images:[],
+    brand:'',
+    price:0,
+    oldPrice:0,
+    category:'',
+    countInStock:0,
+  });
+
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -34,6 +60,10 @@ const ProcductUpload = () => {
     }
   };
 
+  const addProduct = ()=>{
+
+  }
+
   return (
     <div className="main d-flex mt-4">
       <div className="sidebarWrapper">
@@ -45,13 +75,15 @@ const ProcductUpload = () => {
           <h3>Product Upload</h3>
         </div>
 
-        <form className="form">
+        <form className="form" onSubmit={addProduct}>
           <div className="row">
             <div className="col">
               <div className="card p-4">
                 <h5 className="mb-4">Informations</h5>
+                {error_===true && <p className="text-danger">Please fill all the fields</p>}
+                {success_===true && <p className="text-success">Successfully !</p>}
                 <div className="form-group mt-3">
-                  <h6>TITLE</h6>
+                  <h6>PRODUCT NAME</h6>
                   <input type="text" />
                 </div>
                 <div className="form-group mt-3">
@@ -83,20 +115,7 @@ const ProcductUpload = () => {
                   <div className="col">
                     <div className="form-group">
                       <h6>BRAND</h6>
-                      <Select
-                        value={categoryVal}
-                        onChange={handleChangeCategory}
-                        displayEmpty
-                        inputProps={{ "aria-label": "Without label" }}
-                        className="w-100"
-                      >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Shoes</MenuItem>
-                        <MenuItem value={20}>Clothing</MenuItem>
-                        <MenuItem value={30}>Personal Care</MenuItem>
-                      </Select>
+                      <input type="text" />
                     </div>
                   </div>
                 </div>
@@ -154,7 +173,7 @@ const ProcductUpload = () => {
 
                 <br />
 
-                <Button className="btn-purple btn-lg btn-big">
+                <Button  type="submit" className="btn-purple btn-lg btn-big" >
                   <BsCloudUploadFill /> &nbsp; PUBLISH
                 </Button>
               </div>
