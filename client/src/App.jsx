@@ -13,6 +13,7 @@ import MyContext from './context/MyContext';
 import SignUp from './Pages/SignUp';
 import Dashboard from "./Pages/Dashboard";
 import ProcductUpload from './Pages/ProductUpload';
+import ProductList from './Pages/ProductList';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route path="/signIn" element={<SignIn />} />
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/product/list" element={<ProductList />} />
             <Route path="/product/upload" element={<ProcductUpload />} />
 
           </Routes>

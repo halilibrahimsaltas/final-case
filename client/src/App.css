@@ -388,9 +388,38 @@ a:hover{text-decoration: none;}
 .card .hd{font-size: 18px; font-weight: bold; color: #403e57;}
 
 
-.cardFilters .col h4{font-size: 18px; font-weight: 600;text-transform: capitalize;}
+.cardFilters .col h4{font-size: 14px; font-weight: 800;text-transform: capitalize; color: #403e57;}
 
-.main .content{margin-left: -300px;margin-right: 300px;}
+.main .content .card{margin-left: -300px;margin-right: 300px;}
+
+.h1 .h2 .h3 .h4 .h5 .h6{ color: #403e57;}
+.table .thead-dark th{background-color: #7a55c1 !important; border-color: rgba(0, 0, 0, 0.1) !important;font-size: 13px !important;width: 160px;}
+
+.table tbody td{font-size: 13px !important;color: 403e57 !important;font-weight: 500; }
+
+.table tbody .actions button{min-width: 40px !important;width: 40px !important; height: 40px !important; margin: 0px 11px;}
+
+.table tbody .actions button svg{font-size: 20px !important;margin-left: 5px !important;}
+
+.table tbody .actions button.success{background-color: #d2ecd5 !important;}
+.table tbody .actions button.error{background-color: #f8d7da !important;}
+
+table.v-align th, .table.v-align td{vertical-align: middle !important;}
+
+table.v-align td .infoName h6{font-size: 13px; line-height: 18px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;}
+
+.tableFooter{padding-bottom: 20px;}
+
+/*Forms*/
+
+.form .form-group{margin-bottom: 15px;}
+.form .form-group h6{margin-bottom: 10px ;font-size: 13px;}
+.form .form-group input,form .form-group textarea{background: #fafafa;width: 100%; outline: none !important;border: 1px solid rgba(0, 0, 0, 0.1) !important; height: 40px; padding-left: 15px; border-radius: 5px; font-size: 14px;}
+
+form .form-group textarea{height: 120px; padding-top: 15px;}
+
+
+
 
 
 
