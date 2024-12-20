@@ -4,6 +4,9 @@ import { Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { BsCloudUploadFill } from "react-icons/bs";
+import { fetchDataFromApi } from "../../utils/api";
+import MyContext from "../../context/MyContext"
+import { data } from "react-router-dom";
 
 const ProcductUpload = () => {
   const [catData, setCatData] = useState([]);
@@ -11,17 +14,22 @@ const ProcductUpload = () => {
   const [error_,setError]= useState(false);
   const [success_,setSuccess]=useState(false);
 
-    useEffect(() => {
+  const context = useContext(MyContext);
+  
+  useEffect(() => {
       window.scrollTo(0, 0);
+
+      
       fetchDataFromApi("/api/categories/")
         .then((data) => {
-          console.log(data);
           setCatData(data);
         })
         .catch((error) => {
           console.log(error);
         });
-    }, []);
+
+        
+   }, []);
   
   
   const [formFields, setFormFields]= useState({
@@ -60,9 +68,11 @@ const ProcductUpload = () => {
     }
   };
 
-  const addProduct = ()=>{
+  const addProduct = (e)=>{
+    e.preventDefault();
 
-  }
+
+  };
 
   return (
     <div className="main d-flex mt-4">
@@ -84,11 +94,11 @@ const ProcductUpload = () => {
                 {success_===true && <p className="text-success">Successfully !</p>}
                 <div className="form-group mt-3">
                   <h6>PRODUCT NAME</h6>
-                  <input type="text" />
+                  <input type="text" name="name" onChange={inputChange} />
                 </div>
                 <div className="form-group mt-3">
                   <h6>DESCRIPTION</h6>
-                  <textarea name="" id="" cols="30" rows="10"></textarea>
+                  <textarea name="description" id="" cols="30" rows="10" onChange={inputChange}></textarea>
                 </div>
 
                 <div className="row">
@@ -105,9 +115,14 @@ const ProcductUpload = () => {
                         <MenuItem value="">
                           <em>None</em>
                         </MenuItem>
-                        <MenuItem value={10}>Shoes</MenuItem>
-                        <MenuItem value={20}>Clothing</MenuItem>
-                        <MenuItem value={30}>Personal Care</MenuItem>
+                        {
+                          catData?.categoryList?.length !== 0 &&
+                          catData?.categoryList?.map((cat,index)=>{
+                            return(<MenuItem className="text-capitalize"value={cat.name} key={index}>{cat.name} </MenuItem>
+                                     )
+                          })
+                        }
+                        
                       </Select>
                     </div>
                   </div>
@@ -115,7 +130,7 @@ const ProcductUpload = () => {
                   <div className="col">
                     <div className="form-group">
                       <h6>BRAND</h6>
-                      <input type="text" />
+                      <input type="text" name="brand" onChange={inputChange} />
                     </div>
                   </div>
                 </div>
@@ -124,14 +139,14 @@ const ProcductUpload = () => {
                   <div className="col">
                     <div className="form-group">
                       <h6>OLD PRICE</h6>
-                      <input type="text" />
+                      <input type="text " name="oldPrice" onChange={inputChange}/>
                     </div>
                   </div>
 
                   <div className="col">
                     <div className="form-group">
                       <h6>NET PRICE</h6>
-                      <input type="text" />
+                      <input type="text" name="price" onChange={inputChange} />
                     </div>
                   </div>
                 </div>
@@ -140,7 +155,7 @@ const ProcductUpload = () => {
                   <div className="col">
                     <div className="form-group">
                       <h6>STOCK</h6>
-                      <input type="text" />
+                      <input type="text" name="countInStock" onChange={inputChange} />
                     </div>
                   </div>
 
@@ -152,6 +167,7 @@ const ProcductUpload = () => {
                         accept="image/*"
                         onChange={handleImageUpload}
                         className="form-control"
+                        name="images"
                       />
                     </div>
                     {preview && (
@@ -161,7 +177,7 @@ const ProcductUpload = () => {
                           src={preview}
                           alt="Preview"
                           style={{
-                            width: "200px",
+                            width: "150px",
                             height: "auto",
                             borderRadius: "8px",
                           }}
