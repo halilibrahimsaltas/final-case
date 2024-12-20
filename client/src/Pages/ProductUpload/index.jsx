@@ -1,77 +1,102 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import Sidebar from "../../Component/Dashboard/Sidebar";
 import { Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { BsCloudUploadFill } from "react-icons/bs";
 import { fetchDataFromApi } from "../../utils/api";
-import MyContext from "../../context/MyContext"
-import { data } from "react-router-dom";
+import { postData } from "../../utils/api";
+
+
 
 const ProcductUpload = () => {
   const [catData, setCatData] = useState([]);
   const [categoryVal, setcategoryVal] = useState("");
-  const [error_,setError]= useState(false);
-  const [success_,setSuccess]=useState(false);
-
-  const context = useContext(MyContext);
+  const [error_, setError] = useState(false);
+  const [success_, setSuccess] = useState(false);
+  const [productImagesArr, setproductImagesArr] = useState([]);
   
+
+
   useEffect(() => {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
 
-      
-      fetchDataFromApi("/api/categories/")
-        .then((data) => {
-          setCatData(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    fetchDataFromApi("/api/categories/")
+      .then((data) => {
+        setCatData(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-        
-   }, []);
-  
-  
-  const [formFields, setFormFields]= useState({
-    name:'',
-    description:'',
+  const [formFields, setFormFields] = useState({
+    name: "",
+    description: "",
+    brand: "",
+    price: 0,
+    oldPrice: 0,
+    category: "",
+    countInStock: 0,
     images:[],
-    brand:'',
-    price:0,
-    oldPrice:0,
-    category:'',
-    countInStock:0,
   });
 
-
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const productImages = useRef();
 
   const handleChangeCategory = (event) => {
     setcategoryVal(event.target.value);
+    setFormFields(() => ({
+      ...formFields,
+      category: event.target.value,
+    }));
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file));
-    }
+  const addProductImages = () => {
+    // Add the new image URL to the productImagesArr state
+    setproductImagesArr((prevArray) => [
+      ...prevArray,
+      productImages.current.value,
+    ]);
+  
+    // Clear the input field
+    productImages.current.value = "";
   };
 
-  const handlePublish = () => {
-    if (image) {
-      console.log("Publishing with image:", image);
-      // Handle the image upload logic here
-    } else {
-      alert("Please upload an image before publishing.");
-    }
+  const inputChange = (e) => {
+    setFormFields(() => ({
+      ...formFields,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const addProduct = (e)=>{
+  const addProduct = (e) => {
     e.preventDefault();
+    setSuccess(false);
+    setError(false);
 
+    formFields.images = productImagesArr;
+    if(formFields.name!=="" && formFields.category!=="" && formFields. countInStock!=="" && formFields.price!==""  ){
+        postData('/api/products/create',formFields).then((data) => {
+          setFormFields({
+            name: "",
+            description: "",
+            brand: "",
+            price: 0,
+            oldPrice: 0,
+            category: "",
+            countInStock: 0,
+            images:[],
+          });
+          setSuccess(true);
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }else{
+      setError(true);
+    }
 
+  
   };
 
   return (
@@ -90,15 +115,26 @@ const ProcductUpload = () => {
             <div className="col">
               <div className="card p-4">
                 <h5 className="mb-4">Informations</h5>
-                {error_===true && <p className="text-danger">Please fill all the fields</p>}
-                {success_===true && <p className="text-success">Successfully !</p>}
+                {error_ === true && (
+                  <p className="text-danger">Please fill all the fields !</p>
+                )}
+                {success_ === true && (
+                  <p className="text-success">Successfully !</p>
+                )}
                 <div className="form-group mt-3">
                   <h6>PRODUCT NAME</h6>
-                  <input type="text" name="name" onChange={inputChange} />
+                  <input type="text" name="name" value={formFields.name} onChange={inputChange} />
                 </div>
                 <div className="form-group mt-3">
                   <h6>DESCRIPTION</h6>
-                  <textarea name="description" id="" cols="30" rows="10" onChange={inputChange}></textarea>
+                  <textarea
+                    name="description"
+                    value={formFields.description}
+                    id=""
+                    cols="30"
+                    rows="10"
+                    onChange={inputChange}
+                  ></textarea>
                 </div>
 
                 <div className="row">
@@ -115,14 +151,18 @@ const ProcductUpload = () => {
                         <MenuItem value="">
                           <em>None</em>
                         </MenuItem>
-                        {
-                          catData?.categoryList?.length !== 0 &&
-                          catData?.categoryList?.map((cat,index)=>{
-                            return(<MenuItem className="text-capitalize"value={cat.name} key={index}>{cat.name} </MenuItem>
-                                     )
-                          })
-                        }
-                        
+                        {catData?.categoryList?.length !== 0 &&
+                          catData?.categoryList?.map((cat, index) => {
+                            return (
+                              <MenuItem
+                                className="text-capitalize"
+                                value={cat._id}
+                                key={index}
+                              >
+                                {cat.name}{" "}
+                              </MenuItem>
+                            );
+                          })}
                       </Select>
                     </div>
                   </div>
@@ -130,7 +170,7 @@ const ProcductUpload = () => {
                   <div className="col">
                     <div className="form-group">
                       <h6>BRAND</h6>
-                      <input type="text" name="brand" onChange={inputChange} />
+                      <input type="text" name="brand"   value={formFields.brand}onChange={inputChange} />
                     </div>
                   </div>
                 </div>
@@ -139,14 +179,19 @@ const ProcductUpload = () => {
                   <div className="col">
                     <div className="form-group">
                       <h6>OLD PRICE</h6>
-                      <input type="text " name="oldPrice" onChange={inputChange}/>
+                      <input
+                        type="text "
+                        name="oldPrice"
+                        value={formFields.oldPrice}
+                        onChange={inputChange}
+                      />
                     </div>
                   </div>
 
                   <div className="col">
                     <div className="form-group">
                       <h6>NET PRICE</h6>
-                      <input type="text" name="price" onChange={inputChange} />
+                      <input type="text" name="price" value={formFields.price} onChange={inputChange} />
                     </div>
                   </div>
                 </div>
@@ -155,41 +200,62 @@ const ProcductUpload = () => {
                   <div className="col">
                     <div className="form-group">
                       <h6>STOCK</h6>
-                      <input type="text" name="countInStock" onChange={inputChange} />
+                      <input
+                        type="text"
+                        name="countInStock"
+                        value={formFields.countInStock}
+                        onChange={inputChange}
+                      />
                     </div>
                   </div>
 
                   <div className="col">
                     <div className="form-group">
-                      <h6>IMAGE</h6>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="form-control"
-                        name="images"
-                      />
-                    </div>
-                    {preview && (
-                      <div className="mt-3">
-                        <h6>Preview:</h6>
-                        <img
-                          src={preview}
-                          alt="Preview"
-                          style={{
-                            width: "150px",
-                            height: "auto",
-                            borderRadius: "8px",
-                          }}
+                      <h6>IMAGE URL</h6>
+                      <div
+                        className="imageAddButton"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          name="images"
+                          ref={productImages}
+                          onChange={inputChange}
+                          style={{ flex: "1" }}
                         />
+                        <Button
+                          className="btn-purple"
+                          onClick={addProductImages}
+                        >
+                          Add
+                        </Button>
                       </div>
-                    )}
+                    </div>
+
+                    <div>
+                      {productImagesArr.length > 0 && <h4>Product Images</h4>}
+                      <div className="d-flex imgGrid" id="imgGrid">
+                        {productImagesArr.map((image, index) => (
+                          <div className="img" key={index}>
+                            <img
+                              src={image}
+                              alt={`Product ${index + 1}`}
+                              className="w-100"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 <br />
 
-                <Button  type="submit" className="btn-purple btn-lg btn-big" >
+                <Button type="submit" className="btn-purple btn-lg btn-big">
                   <BsCloudUploadFill /> &nbsp; PUBLISH
                 </Button>
               </div>
