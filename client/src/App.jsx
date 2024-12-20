@@ -14,6 +14,8 @@ import SignUp from './Pages/SignUp';
 import Dashboard from "./Pages/Dashboard";
 import ProcductUpload from './Pages/ProductUpload';
 import ProductList from './Pages/ProductList';
+import CategoryAdd from './Pages/CategoryAdd';
+require('dotenv').config();
 
 
 function App() {
@@ -44,6 +46,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/product/list" element={<ProductList />} />
             <Route path="/product/upload" element={<ProcductUpload />} />
+            <Route path="/category/add" element={<CategoryAdd />} />
+
 
           </Routes>
         {isHeaderFooterShow===true && <Footer />}

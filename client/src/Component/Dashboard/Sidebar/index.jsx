@@ -87,10 +87,7 @@ const Sidebar = () => {
                     <Link to="/category/list">Category List</Link>
                 </li>
                 <li>
-                    <Link to="">Category View</Link>
-                </li>
-                <li>
-                    <Link to="/category/upload">Category Upload</Link>
+                    <Link to="/category/add">Add Category</Link>
                 </li>
             </ul>
 
