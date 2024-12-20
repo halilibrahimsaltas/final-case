@@ -91,11 +91,15 @@ const CategoryList = () => {
       })
 
     })
-  }
+  };
+
+  const handleChange = (event, value) => {
+    fetchDataFromApi(`/api/categories?page=${value}`).then((res)=>{
+        setCatData(res);
+
+    })
+  };
   
-
- 
-
   return (
     <div className="main d-flex mt-4">
       <div className="sidebarWrapper">
@@ -137,8 +141,8 @@ const CategoryList = () => {
               </thead>
 
               <tbody>
-                {catData?.length !== 0 &&
-                  catData.map((item, index) => (
+                {catData?.categoryList?.length !== 0 &&
+                  catData?.categoryList?.map((item, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{item.name}</td>
@@ -162,11 +166,12 @@ const CategoryList = () => {
             </table>
             <div className="d-flex justify-content-center pt-3 tableFooter">
               <Pagination
-                count={100}
+                count={catData?.totalPages}
                 color="secondary"
                 className="pagination"
                 showFirstButton
                 showLastButton
+                onChange={handleChange}
               />
             </div>
           </div>

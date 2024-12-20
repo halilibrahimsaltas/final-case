@@ -7,8 +7,6 @@ import { postData } from "../../utils/api";
 
 const CategoryAdd = () => {
 
-
-
     const [ formFields, setformFields ] = useState({
         name: "",
     }
@@ -21,7 +19,6 @@ const CategoryAdd = () => {
              }
            ))
     }
-
 
     const handleCategory = (e) => {
         e.preventDefault();

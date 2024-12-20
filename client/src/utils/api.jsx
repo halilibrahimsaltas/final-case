@@ -33,9 +33,9 @@ export const editData = async (url, updatedData) => {
 };
 
 
-export const deleteData = async (url, id) => {
+export const deleteData = async (url) => {
     try {
-        const response = await axios.delete(`${baseURL}${url}${id}`);
+        const response = await axios.delete(`${baseURL}${url}`);
         return response.data;
     } catch (error) {
         console.error(error.message);
