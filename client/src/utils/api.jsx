@@ -24,11 +24,15 @@ export const postData = async (url, data) => {
 
 export const editData = async (url, updatedData) => {
     try {
-        const response = await axios.put(`${baseURL}${url}`, updatedData);
+        const response = await axios.put(`${baseURL}${url}`, updatedData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Ensure this header is set
+            },
+        });
         return response.data;
     } catch (error) {
-        console.error(error.message);
-        return { error: error.message };
+        console.error("Request failed:", error.response ? error.response.data : error.message);
+        return { error: error.response ? error.response.data : error.message };
     }
 };
 

@@ -41,18 +41,18 @@ function App() {
         <MyContext.Provider value={values}>
           <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/cat/:id" element={<Listing />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/signIn" element={<SignIn />} />
-            <Route path="/signUp" element={<SignUp />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/product/list" element={<ProductList />} />
-            <Route path="/product/upload" element={<ProductUpload />} />
-            <Route path="/product/edit/:id" element={<ProductEdit />} />
-            <Route path="/category/add" element={<CategoryAdd />} />
-            <Route path="/category/list" element={<CategoryList />} />
+            <Route path="/"  exact element={<Home />} />
+            <Route path="/cat/:id"  exact element={<Listing />} />
+            <Route path="/product/:id" exact  element={<ProductDetails />} />
+            <Route path="/cart" exact element={<Cart />} />
+            <Route path="/signIn" exact element={<SignIn />} />
+            <Route path="/signUp" exact element={<SignUp />} />
+            <Route path="/dashboard" exact element={<Dashboard />} />
+            <Route path="/product/list" exact element={<ProductList />} />
+            <Route path="/product/upload" exact element={<ProductUpload />} />
+            <Route path="/product/edit/:id" exact element={<ProductEdit />} />
+            <Route path="/category/add"  exact element={<CategoryAdd />} />
+            <Route path="/category/list"  exact element={<CategoryList />} />
 
 
 

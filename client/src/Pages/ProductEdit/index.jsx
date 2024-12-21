@@ -5,7 +5,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { BsCloudUploadFill } from "react-icons/bs";
 import { editData, fetchDataFromApi } from "../../utils/api";
-import { postData } from "../../utils/api";
 import { useParams } from "react-router-dom";
 
 const ProductEdit = () => {
@@ -14,9 +13,6 @@ const ProductEdit = () => {
   const [error_, setError] = useState(false);
   const [success_, setSuccess] = useState(false);
   const [productImagesArr, setproductImagesArr] = useState([]);
-  const [editId, setEditId] = useState(null);
-  const [productList, setProductList] = useState([]);
-  const [products, setProdusts] = useState([]);
   let { id } = useParams();
   
   const [formFields, setFormFields] = useState({
@@ -39,16 +35,15 @@ const ProductEdit = () => {
     });
 
     fetchDataFromApi(`/api/products/${id}`).then((res)=>{
-      setProdusts(res);
       setFormFields({
-        name: res.name || "",
-        description: res.description || "",
-        brand: res.brand || "",
-        price: res.price || "",
-        oldPrice: res.oldPrice || "",
-        category: res.category.id || "",
-        countInStock: res.countInStock || "",
-        images: res.images || [],
+        name: res.name ,
+        description: res.description ,
+        brand: res.brand ,
+        price: res.price ,
+        oldPrice: res.oldPrice ,
+        category: res.category.id ,
+        countInStock: res.countInStock ,
+        images: res.images
       });
       setcategoryVal(res.category.id);
     })
@@ -69,57 +64,46 @@ const handleChangeCategory = (event) => {
 
  const editProduct = (id) => {
     e.preventDefault();
-    setError(false);
+    setError(true);
     setSuccess(false);
+    const categoryId = formFields.category.id || formFields.category;
+    
     formData.append("name", formFields.name);
     formData.append("description", formFields.description);
     formData.append("brand", formFields.brand);
     formData.append("price", formFields.price);
     formData.append("oldPrice", formFields.oldPrice);
-    formData.append("category", formFields.category);
+    formData.append("category", categoryId);
     formData.append("countInStock", formFields.countInStock);
-    if (!id) {
-      console.error("ID is undefined");
-      return;
-    }
-    setEditId(id);
-    postData(`/api/products/${id}`).then((res) => {
-      setformFields({
-        name: "",
-        description: "",
-        brand: "",
-        price: 0,
-        oldPrice: 0,
-        category: "",
-        countInStock: 0,
-        images: [],
-      });
-      console.log(data);
-    });
-  };
-  const productEditFunc = (e) => {
-    e.preventDefault();
+
+    formFields.images = productImagesArr;
+   
     if (
       formFields.name !== "" &&
       formFields.category !== "" &&
       formFields.countInStock !== "" &&
       formFields.price !== ""
     ) {
-      editData(`/api/products/${editId}`, formFields)
-        .then((data) => {
-          fetchDataFromApi("/api/products").then((data) => {
-            setSuccess(true);
-            setCatData(data);
-            setOpen(false);
-          
+        editData(`/api/products/${id}`,formFields).then((data) => {
+            setSuccess(true); 
+            setformFields({
+            name: "",
+            description: "",
+            brand: "",
+            price: 0,
+            oldPrice: 0,
+            category: "",
+            countInStock: 0,
+            images: [],
           });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      setError(true);
-    }
+          })
+          .catch((error) => {
+              console.log(error);
+          });
+         
+        }else{
+          setError(true);
+        }
   };
   const addProductImages = () => {
     // Add the new image URL to the productImagesArr state
@@ -194,7 +178,7 @@ const handleChangeCategory = (event) => {
                                 value={cat.id}
                                 key={index}
                               >
-                                {cat.name}{" "}
+                                {cat.name}
                               </MenuItem>
                             );
                           })}
@@ -204,7 +188,7 @@ const handleChangeCategory = (event) => {
                   <div className="col">
                     <div className="form-group">
                       <h6>BRAND</h6>
-                      <input type="text" name="brand"   value={formFields.brand}onChange={inputChange} />
+                      <input type="text" name="brand"   value={formFields.brand} onChange={inputChange} />
                     </div>
                   </div>
                 </div>

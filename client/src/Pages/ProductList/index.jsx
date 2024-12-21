@@ -110,7 +110,7 @@ const ProductList = () => {
                         <td className="pl-5">{index+1}</td>
                         <td>{item.name}</td>
                         <td>{item.category.name}</td>
-                        <td>Rs{item.price}</td>
+                        <td>{item.price}</td>
                         <td>{item.countInStock}</td>
                         <td>
                           <div className="actions d-flex align-items-center">

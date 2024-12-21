@@ -7,9 +7,8 @@ var productEditId;
 // Get all products
 router.get("/", async (req, res) => {
   
-
   const page = parseInt(req.query.page) || 1 ;
-  const perPage = 4;
+  const perPage = 10;
   const totalPosts = await Product.countDocuments();
   const totalPages = Math.ceil(totalPosts/perPage);
 
@@ -32,6 +31,24 @@ router.get("/", async (req, res) => {
    });
   
 });
+
+router.get("/featured", async (req, res) => {
+  try {
+      const productList = await Product.find({ isFeatured: true });
+
+      if (!productList || productList.length === 0) {
+          return res.status(404).json({ success: false, message: "No featured products found" });
+      }
+
+      return res.status(200).json(productList); // Send the array of featured products
+  } catch (error) {
+      console.error("Error fetching featured products:", error);
+      return res.status(500).json({ success: false, message: "An error occurred", error: error.message });
+  }
+});
+
+
+
 // Get single product
 router.get("/:id", async (req, res) => {
   productEditId =req.params.id;
