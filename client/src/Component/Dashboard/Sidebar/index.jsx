@@ -56,9 +56,6 @@ const Sidebar = () => {
                     <Link to="/product/list">Product List</Link>
                 </li>
                 <li>
-                    <Link to="">Product View</Link>
-                </li>
-                <li>
                     <Link to="/product/upload">Product Upload</Link>
                 </li>
             </ul>

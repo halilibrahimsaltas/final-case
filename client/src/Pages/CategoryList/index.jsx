@@ -163,11 +163,11 @@ const CategoryList = () => {
                           <Button
                             className="success"
                             color="success"
-                            onClick={() => editCat(item._id)}
+                            onClick={() => editCat(item.id)}
                           >
                             <FaPen />
                           </Button>
-                          <Button className="error" color="error" onClick={()=>deleteCat(item._id)}>
+                          <Button className="error" color="error" onClick={()=>deleteCat(item.id)}>
                             <RiDeleteBinFill />
                           </Button>
                         </div>

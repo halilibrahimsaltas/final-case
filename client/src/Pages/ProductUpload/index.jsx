@@ -8,7 +8,6 @@ import { fetchDataFromApi } from "../../utils/api";
 import { postData } from "../../utils/api";
 
 
-
 const ProcductUpload = () => {
   const [catData, setCatData] = useState([]);
   const [categoryVal, setcategoryVal] = useState("");

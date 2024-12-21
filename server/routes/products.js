@@ -6,11 +6,26 @@ const { Category } = require("../models/category");
 
 // Get all products
 router.get("/", async (req, res) => {
-  const productList = await Product.find().populate("category");
-  if (!productList) {
+  
+
+  const page = parseInt(req.query.page) || 1 ;
+  const perPage = 8;
+  const totalPosts = await Product.find().populate("category").countDocuments();
+  const totalPages = Math.ceil(totalPosts/perPage);
+
+  if(page > totalPages){
+      return res.status(404).json({message : "Page not found"})
+  }
+
+  const productlist = await Product.find().populate("category")
+  .skip((page - 1)* perPage)
+  .limit(perPage)
+  .exec();
+
+  if (!productlist) {
     res.status(500).json({ success: false });
   }
-  res.send(productList);
+  res.send(productlist);
 });
 // Get single product
 router.get("/:id", async (req, res) => {
