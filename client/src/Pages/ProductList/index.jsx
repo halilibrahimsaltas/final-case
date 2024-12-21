@@ -7,20 +7,14 @@ import { FaPen } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
 import Pagination from "@mui/material/Pagination";
 import { deleteData, editData, fetchDataFromApi } from "../../utils/api";
-import { useNavigate } from "react-router-dom";
+
 
 
 const ProductList = () => {
   const [showBy, setshowBy] = useState("");
   const [productList, setProductList] = useState([]);
 
-  const navigate = useNavigate();
-
-    const handleEdit = (id) => {
-        navigate(`/product/edit/${id}`);
-    };
   
- 
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -117,12 +111,13 @@ const ProductList = () => {
                         <td>{item.countInStock}</td>
                         <td>
                           <div className="actions d-flex align-items-center">
+                             {/* <Link to={`/product/edit/${item.id}`}>*/}
                             <Button className="success" color="success" 
-                            onClick={() => handleEdit(item.id)} >
-                            
+                              >
                               <FaPen />
                             </Button>
-
+                             {/* </Link>*/}
+                              
                             <Button className="error" color="error"  onClick={()=>deleteProduct(item.id)}>
                               <RiDeleteBinFill />
                             </Button>

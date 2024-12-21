@@ -8,7 +8,7 @@ import { fetchDataFromApi } from "../../utils/api";
 import { postData } from "../../utils/api";
 
 
-const ProcductUpload = () => {
+const ProductUpload = () => {
   const [catData, setCatData] = useState([]);
   const [categoryVal, setcategoryVal] = useState("");
   const [error_, setError] = useState(false);
@@ -266,4 +266,4 @@ const ProcductUpload = () => {
   );
 };
 
-export default ProcductUpload;
+export default ProductUpload;
