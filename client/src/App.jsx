@@ -13,6 +13,7 @@ import MyContext from './context/MyContext';
 import SignUp from './Pages/SignUp';
 import Dashboard from "./Pages/Dashboard";
 import ProductUpload from './Pages/ProductUpload';
+import ProductEdit from './Pages/ProductEdit';
 import ProductList from './Pages/ProductList';
 import CategoryAdd from './Pages/CategoryAdd';
 import CategoryList from './Pages/CategoryList';
@@ -49,7 +50,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/product/list" element={<ProductList />} />
             <Route path="/product/upload" element={<ProductUpload />} />
-           
+            <Route path="/product/edit/:id" element={<ProductEdit />} />
             <Route path="/category/add" element={<CategoryAdd />} />
             <Route path="/category/list" element={<CategoryList />} />
 
