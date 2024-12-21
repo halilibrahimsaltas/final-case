@@ -29,7 +29,7 @@ const Navigation = () => {
               <div className={`sidebarNav ${isOpenSidebarVal ? "open" : ""}`}>
                 <ul>
                   <li>
-                    <Link to="/">
+                    <Link to="/cat/1">
                       <Button>Fashion<FaAngleRight className="ml-auto" /></Button>
                     </Link>
                     <div className="submenu">
@@ -162,7 +162,7 @@ const Navigation = () => {
                 </Link>
               </li>
               <li className="list-inline-item">
-                <Link to="/">
+                <Link to="/cat/1">
                   <Button>Fashion</Button>
                 </Link>
                 <div className="submenu shadow">

@@ -14,6 +14,8 @@ import "swiper/css/scrollbar";
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [productData,setProductData] = useState([]);
+
 
   useEffect(() => {
     fetchDataFromApi(`/api/products/featured`).then((res) => {
@@ -22,6 +24,10 @@ const Home = () => {
       } else {
         console.error("Unexpected API response format:", res);
       }
+    });
+
+    fetchDataFromApi(`/api/products/`).then((res) => {
+        setProductData(res);
     });
   }, []);
 
@@ -78,34 +84,14 @@ const Home = () => {
                   spaceBetween={10} // Space between slides
                   slidesPerView={5} // Number of slides visible
                   scrollbar={{ draggable: true }} // Enable draggable scrollbar
-                >
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
+                >  {
+                    productData?.products?.length !== 0 &&
+                    productData?.products?.map((item, index) => (
+                      <SwiperSlide key={index}>
+                        <ProductItem item={item} />
+                      </SwiperSlide>
+                    ))}
+                  
                 </Swiper>
               </div>
 
@@ -127,33 +113,13 @@ const Home = () => {
                   slidesPerView={5} // Number of slides visible
                   scrollbar={{ draggable: true }} // Enable draggable scrollbar
                 >
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <ProductItem />
-                  </SwiperSlide>
+                   {
+                    productData?.products?.length !== 0 &&
+                    productData?.products?.map((item, index) => (
+                      <SwiperSlide key={index}>
+                        <ProductItem item={item} />
+                      </SwiperSlide>
+                    ))}
                 </Swiper>
               </div>
 

@@ -16,7 +16,7 @@ const ProductItem = (props)=>{
         <div className="imgWrapper">
         <Link to={'product/1'}><img
             src={props.item?.images[0]}
-            className="w-100"
+            className=" product-image"
             alt="Product 1"
           />
           </Link>
