@@ -87,10 +87,8 @@ const CategoryList = () => {
       });
     } else{
       setError(true);
-
     }
 
-    
   };
 
   const deleteCat = (id)=>{

@@ -3,32 +3,38 @@ const express = require("express");
 const router = express.Router();
 const { Category } = require("../models/category");
 
-
+var productEditId;
 // Get all products
 router.get("/", async (req, res) => {
   
 
   const page = parseInt(req.query.page) || 1 ;
-  const perPage = 8;
-  const totalPosts = await Product.find().populate("category").countDocuments();
+  const perPage = 4;
+  const totalPosts = await Product.countDocuments();
   const totalPages = Math.ceil(totalPosts/perPage);
 
   if(page > totalPages){
       return res.status(404).json({message : "Page not found"})
   }
 
-  const productlist = await Product.find().populate("category")
+  const productList = await Product.find().populate("category")
   .skip((page - 1)* perPage)
   .limit(perPage)
   .exec();
 
-  if (!productlist) {
+  if (!productList) {
     res.status(500).json({ success: false });
   }
-  res.send(productlist);
+   return res.status(200).json({
+    "products":productList,
+    "totalPages":totalPages,
+    "page":page
+   });
+  
 });
 // Get single product
 router.get("/:id", async (req, res) => {
+  productEditId =req.params.id;
   const product = await Product.findById(req.params.id).populate("category");
   if (!product) {
     return res.status(500).json({ success: false });

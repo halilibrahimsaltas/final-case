@@ -7,11 +7,20 @@ import { FaPen } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
 import Pagination from "@mui/material/Pagination";
 import { deleteData, editData, fetchDataFromApi } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
+
 
 const ProductList = () => {
   const [showBy, setshowBy] = useState("");
   const [productList, setProductList] = useState([]);
+
+  const navigate = useNavigate();
+
+    const handleEdit = (id) => {
+        navigate(`/product/edit/${id}`);
+    };
   
+ 
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -23,6 +32,10 @@ const ProductList = () => {
       .catch((error) => {
         console.log(error);
       });
+
+
+
+
     }, []);
 
     const deleteProduct = (id)=>{
@@ -43,7 +56,7 @@ const ProductList = () => {
 
     const handleChange = (event, value) => {
         fetchDataFromApi(`/api/products?page=${value}`).then((res)=>{
-            productList(res);
+            setProductList(res);
     
         })
     };
@@ -93,8 +106,8 @@ const ProductList = () => {
               </thead>
 
               <tbody>
-                {productList?.length !== 0 &&
-                  productList?.map((item, index) => {
+                {productList?.products?.length !== 0 &&
+                  productList?.products?.map((item, index) => {
                     return (
                       <tr key={index} >
                         <td className="pl-5">{index+1}</td>
@@ -104,7 +117,9 @@ const ProductList = () => {
                         <td>{item.countInStock}</td>
                         <td>
                           <div className="actions d-flex align-items-center">
-                            <Button className="success" color="success">
+                            <Button className="success" color="success" 
+                            onClick={() => handleEdit(item.id)} >
+                            
                               <FaPen />
                             </Button>
 
@@ -123,9 +138,9 @@ const ProductList = () => {
                 count={productList?.totalPages}
                 color="secondary"
                 className="pagination"
-                onChange={handleChange}
                 showFirstButton
                 showLastButton
+                 onChange={handleChange}
               />
             </div>
           </div>

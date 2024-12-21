@@ -12,10 +12,11 @@ import { useState } from "react";
 import MyContext from './context/MyContext';
 import SignUp from './Pages/SignUp';
 import Dashboard from "./Pages/Dashboard";
-import ProcductUpload from './Pages/ProductUpload';
+import ProductUpload from './Pages/ProductUpload';
 import ProductList from './Pages/ProductList';
 import CategoryAdd from './Pages/CategoryAdd';
 import CategoryList from './Pages/CategoryList';
+import ProductEdit from './Pages/ProductEdit';
 
 
 
@@ -47,7 +48,8 @@ function App() {
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/product/list" element={<ProductList />} />
-            <Route path="/product/upload" element={<ProcductUpload />} />
+            <Route path="/product/upload" element={<ProductUpload />} />
+            <Route path="/product/edit/:id" element={<ProductEdit />} />
             <Route path="/category/add" element={<CategoryAdd />} />
             <Route path="/category/list" element={<CategoryList />} />
 
