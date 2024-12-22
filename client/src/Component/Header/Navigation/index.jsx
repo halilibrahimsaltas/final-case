@@ -2,11 +2,11 @@ import { Button } from "@mui/material";
 import { FiMenu } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+
 import { FaAngleRight } from "react-icons/fa";
 
 const Navigation = () => {
-  const [isOpenSidebarVal, setIsOpenSidebarVal] = useState(false);
+ 
 
 
   return (
@@ -14,145 +14,14 @@ const Navigation = () => {
       <div className="container">
         <div className="row">
           <div className="col-sm-3 navPart1">
-            <div className="catWrapper">
-              <Button
-                className="allCatTab align-items-center"
-                onClick={() => setIsOpenSidebarVal(!isOpenSidebarVal)}
+            <div className="catWrapper ">
+              <Link to="cat/6767167019696c44689ca693">  <Button 
+                className="allCatTab align-items-center "
               >
-                <span className="icon1 mb-1 mr-2">
-                  <FiMenu />
-                </span>
+          
                 <span className="text">ALL CATEGORIES</span>
-                <span className="icon2 mb-1 ml-1">
-                  <FaAngleDown />
-                </span>
-              </Button>
-              <div className={`sidebarNav ${isOpenSidebarVal ? "open" : ""}`}>
-                <ul>
-                  <li>
-                    <Link to="/cat/1">
-                      <Button>Fashion<FaAngleRight className="ml-auto" /></Button>
-                    </Link>
-                    <div className="submenu">
-                      <Link to="/">
-                        <Button>Clothing</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Shoes</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Personal Care</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Accessories</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Personal Care</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Accessories</Button>
-                      </Link>
-                    </div>
-                  </li>
-                  <li>
-                    {" "}
-                    <Link to="/">
-                      <Button>Electronics<FaAngleRight className="ml-auto" /></Button>
-                    </Link>
-                    <div className="submenu">
-                      <Link to="/">
-                        <Button>Clothing</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Shoes</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Personal Care</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Accessories</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Personal Care</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Accessories</Button>
-                      </Link>
-                    </div>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      <Button>Market</Button>
-                    </Link>
-                    <div className="submenu">
-                      <Link to="/">
-                        <Button>Clothing</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Shoes</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Personal Care</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Accessories</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Personal Care</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Accessories</Button>
-                      </Link>
-                    </div>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      <Button>Gift</Button>
-                    </Link>
-                    <div className="submenu">
-                      <Link to="/">
-                        <Button>Clothing</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Shoes</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Personal Care</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Accessories</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Personal Care</Button>
-                      </Link>
-                      <Link to="/">
-                        <Button>Accessories</Button>
-                      </Link>
-                    </div>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      <Button>Fashion</Button>
-                    </Link>
-                  </li>
-                  <li>
-                    {" "}
-                    <Link to="/">
-                      <Button>Electroincs</Button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      <Button>Market</Button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      <Button>Gift</Button>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+              </Button></Link>
+          
             </div>
           </div>
           <div className="col-sm-10 navPart2 d-flex align-items-center">

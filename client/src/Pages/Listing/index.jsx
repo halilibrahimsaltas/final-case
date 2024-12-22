@@ -30,6 +30,9 @@ const Listing = () => {
     const {id}=useParams();
 
     useEffect(() => {
+
+      let url =window.location.href;
+      let apiEndPoint="";
       const queryParams = new URLSearchParams();
   
       if (filters.brands.length) queryParams.append("brand", filters.brands.join(","));

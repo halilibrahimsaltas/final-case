@@ -61,9 +61,9 @@ router.post('/signin', async (req, res) => {
     
     try {
       // Check if user exists
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email:email });
       if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+        return res.status(404).json({ message: 'User not found' });
       }
   
       // Compare the provided password with the stored hashed password
@@ -88,12 +88,25 @@ router.post('/signin', async (req, res) => {
   });
 // Update a user by ID
 router.put('/:id', async (req, res) => {
+      const {name ,email ,password} = req.body;
+
+      const userExist = await User.findById(req.params.id);
+
+      let newPassword;
+    
     try {
-        const { password, ...userData } = req.body;
-        if (password) {
-            userData.password = await bcrypt.hash(password, 10);
+       
+        if (req.body.password) {
+            newPassword= await bcrypt.hashSync(req.body.password, 10);
+        }else{
+          newPassword = userExist.passwordHash;
         }
-        const user = await User.findByIdAndUpdate(req.params.id, userData, { new: true });
+
+        const user = await User.findByIdAndUpdate(req.params.id,
+           req.params.id, {name:name,
+            email:email,
+            password:newPassword},{new:true});
+            
         if (!user) return res.status(404).send('User not found');
         res.send(user);
     } catch (error) {

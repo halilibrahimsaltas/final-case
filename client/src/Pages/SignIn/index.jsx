@@ -21,6 +21,8 @@ const SignIn = () => {
   }, [context]);
 
 
+
+
   const [formFields, setFormFields] = useState({
     email: "",
     password: "",
@@ -31,34 +33,42 @@ const SignIn = () => {
       [e.target.name]: e.target.value
     });
   };
-
   const signIn = (e) => {
     e.preventDefault();
-
+  
     if (formFields.email === "" || formFields.password === "") {
       setError(true);
       return;
     } else {
       postData("/api/user/signin", formFields)
         .then((res) => {
+          console.log("API Response:", res); // Yanıtı kontrol edin
+  
           try {
             localStorage.setItem("token", res.token);
+  
+            // result içindeki user bilgisine erişim
             const user = {
-              name: res.user?.name,
-              email: res.user?.email,
-              userId: res.user?.id
+              name: res.result?.name,
+              email: res.result?.email,
+              userId: res.result?.id || res.result?._id
             };
+  
             localStorage.setItem("user", JSON.stringify(user));
             const storedUser = JSON.parse(localStorage.getItem("user"));
             console.log("Stored User:", storedUser);
-
+  
             setError(false);
             setSuccess(true);
             setTimeout(() => {
               navigate("/dashboard");
-            }, 1000);
+            }, 500);
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
+            
           } catch (error) {
-            console.log(error);
+            console.log("Hata oluştu:", error);
           }
         })
         .catch((error) => {

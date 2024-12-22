@@ -25,7 +25,7 @@ import CategoryList from './Pages/CategoryList';
 function App() {
 
   const [isHeaderFooterShow, setIsHeaderFooterShow] = useState(true);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const values = {
     isHeaderFooterShow,

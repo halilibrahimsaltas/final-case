@@ -47,12 +47,12 @@ header .headerSearch button:active {
 
 header .headerSearch button svg{font-size: 25px;}
 
-header .part3 .circle{align-items:  center; justify-content:  center ;min-width:  55px !important; height: 55px !important;width: 50px !important; border-radius: 50% !important;border: 1px solid rgba(0, 0, 0, 0.1) !important }
+header .part3 .circle{align-items:  center; justify-content:  center ; ;min-width:  55px !important; height: 55px !important;width: 50px !important; border-radius: 50% !important;border: 1px solid rgba(0, 0, 0, 0.1) !important }
 
 header .part3 .circle svg{ font-size: 25px;color:#7a55c1;}
 
 
-header .part3 .cartTab{align-items:  center; justify-content:  center ;min-width:  55px !important; height: 55px !important;width: 50px !important; border-radius: 50% !important;border: 1px solid rgba(0, 0, 0, 0.1) !important;}
+header .part3 .cartTab{align-items:  center; justify-content:  center ;left: 15px ;min-width:  55px !important; height: 55px !important;width: 50px !important; border-radius: 50% !important;border: 1px solid rgba(0, 0, 0, 0.1) !important;}
 header .part3 .cartTab button{background: #fff1ee !important;}
 
 header .part3 .cartTab svg{color: #7a55c1 !important; font-size: 25px;}
@@ -81,7 +81,7 @@ nav .navPart1 .catWrapper .sidebarNav ul li .submenu{position: absolute; top: 0p
 nav .navPart1 .catWrapper .sidebarNav ul li:hover .submenu{opacity: 1;visibility: inherit;left: 100%; }
 nav .navPart1 .catWrapper .sidebarNav ul li:hover .submenu button{border-radius: 0px !important;}
 
-nav .allCatTab{background: #7a55c1; padding:  10px 15px !important; border-radius: 30px !important;}
+nav .allCatTab{background: #7a55c1; padding:  10px 25px !important; border-radius: 30px !important;left: 50px;}
 
 nav .allCatTab *{color: #fff;}
 nav .allCatTab:hover{background-color:#7a55c1 ;}

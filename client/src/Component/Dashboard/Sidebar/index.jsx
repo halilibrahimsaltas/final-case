@@ -7,15 +7,30 @@ import { FaBox } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { RiLogoutBoxLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+
 
 const Sidebar = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [isToggleSubmenu, setIsToggleSubmenu] = useState(false);
+    const navigate = useNavigate();
+
 
     const isOpenSubmenu = (index) => {
         setActiveTab(index);
-        setIsToggleSubmenu(!isToggleSubmenu);
-        
+        setIsToggleSubmenu(!isToggleSubmenu);  
+    }
+
+    const logout=()=>{
+      localStorage.clear();
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    
+
     }
 
   return (
@@ -124,7 +139,7 @@ const Sidebar = () => {
 
       <br />
       <div className="logoutWrapper">
-        <Button  variant="contained" className="w-50"><RiLogoutBoxLine />Logout</Button>
+        <Button  onClick={logout} variant="contained" className="w-50"><RiLogoutBoxLine />Logout</Button>
 
       </div>
     </div>
