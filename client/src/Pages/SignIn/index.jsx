@@ -5,62 +5,68 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { postData } from "../../utils/api";
-import Cookies from "js-cookie";
+
 
 const SignIn = () => {
   const [error_, setError] = useState(false);
   const [success_, setSuccess] = useState(false);
   const context = useContext(MyContext);
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     context.setIsHeaderFooterShow(false);
     return () => {
-      context.setIsHeaderFooterShow(false);
+      context.setIsHeaderFooterShow(true);
     };
   }, [context]);
+
 
   const [formFields, setFormFields] = useState({
     email: "",
     password: "",
   });
   const onChangeInput = (e) => {
-    setFormFields(() => ({
+    setFormFields({
       ...formFields,
-      [e.target.name]: e.target.value,
-    }));
+      [e.target.name]: e.target.value
+    });
   };
 
   const signIn = (e) => {
-    e.preventDefault(formFields);
+    e.preventDefault();
 
-    if (formFields.email == "" && formFields.password == "") {
+    if (formFields.email === "" || formFields.password === "") {
       setError(true);
-      return false;
+      return;
     } else {
-      postData("/api/user/signin", formFields).then((res) => {
-        try {
-          localStorage.setItem("token", res.token);
+      postData("/api/user/signin", formFields)
+        .then((res) => {
+          try {
+            localStorage.setItem("token", res.token);
+            const user = {
+              name: res.user?.name,
+              email: res.user?.email,
+              userId: res.user?.id
+            };
+            localStorage.setItem("user", JSON.stringify(user));
+            const storedUser = JSON.parse(localStorage.getItem("user"));
+            console.log("Stored User:", storedUser);
 
-
-          localStorage.setItem("user", {
-            name: res.user?.name,
-            email: res.user?.email,
-            userId: res.user?.id,
-          });
-
-          setError(false);
-          setSuccess(true);
-          setTimeout(() => {
-            history("/dashboard");
-          }, 1000);
-        } catch (error) {
-          console.log(error);
-        }
-      });
+            setError(false);
+            setSuccess(true);
+            setTimeout(() => {
+              navigate("/dashboard");
+            }, 1000);
+          } catch (error) {
+            console.log(error);
+          }
+        })
+        .catch((error) => {
+          console.error("Error signing in:", error);
+          setError(true);
+        });
     }
   };
-
   return (
     <section className="section signIn mt-5 ">
       <div className="container">
