@@ -13,8 +13,9 @@ import { fetchDataFromApi } from "../../utils/api";
 const Listing = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [productView, setProductView] = useState('three');
-    const [currentPage, setCurrentPage] = useState(1); // Track current page
+    const [page, setCurrentPage] = useState(1); // Track current page
     const [productData, setProductData] = useState([]);
+    const [totalPages, setTotalPages] = useState(0); // Track total pages
     const [filters, setFilters] = useState({
     brands: [],
     categories: [],
@@ -30,28 +31,40 @@ const Listing = () => {
     const {id}=useParams();
 
     useEffect(() => {
-
-      let url =window.location.href;
+      /*let url =window.location.href;
       let apiEndPoint="";
+      if(url.includes('brand')){
+        apiEndPoint=`/api/products?brand=${id}`
+      }
+      if(url.includes('category')){
+        apiEndPoint=`/api/products?category=${id}`
+      }
+      console.log(window.location.href);
+      fetchDataFromApi(`${apiEndPoint}`).then((res)=>{
+        setProductData(res);
+
+       }) [id]burası filters yerine*/
+      
       const queryParams = new URLSearchParams();
   
       if (filters.brands.length) queryParams.append("brand", filters.brands.join(","));
       if (filters.categories.length) queryParams.append("category", filters.categories.join(","));
       queryParams.append("minPrice", filters.priceRange[0]);
       queryParams.append("maxPrice", filters.priceRange[1]);
+      queryParams.append("page", page);
   
       fetchDataFromApi(`/api/products?${queryParams.toString()}`)
-        .then((res) => setProductData(res.products))
+        .then((res) => {
+          setProductData(res.products);
+          setTotalPages(res.totalPages)
+           })
         .catch((err) => console.error("Error fetching products:", err));
-    }, [filters]);
+    }, [filters,page]);
 
 
   // Handle page change for pagination
   const handleChange = (event, value) => {
-    fetchDataFromApi(`/api/products?page=${value}`).then((res)=>{
-      setProductData(res);
-
-    })
+    setCurrentPage(value);
 };
 
   
@@ -87,8 +100,9 @@ const Listing = () => {
 
               <div className="d-flex align-items-center justify-content-center mt-5">
                <Pagination  
-                  count={setProductData?.totalPages} 
-                  onChange={handleChange} 
+                  count={totalPages}
+                  page={page}
+                  onChange={handleChange}
                   color="secondary"
                   className="pagination"
                   showFirstButton

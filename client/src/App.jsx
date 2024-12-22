@@ -17,23 +17,34 @@ import ProductEdit from './Pages/ProductEdit';
 import ProductList from './Pages/ProductList';
 import CategoryAdd from './Pages/CategoryAdd';
 import CategoryList from './Pages/CategoryList';
-
-
-
+import { postData } from './utils/api';
 
 
 function App() {
 
   const [isHeaderFooterShow, setIsHeaderFooterShow] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
-
+  const [cartData,setCartData] = useState([]);
+  const [added, setAdded] = useState(false);
+ 
+  const addtoCart=(data)=>  {
+      postData(`/api/cart/add`,data).then((res)=>{
+        if(res!==null &&res!==undefined &&res!==""  ){
+          setAdded(true);
+        }
+      })
+    }
   const values = {
     isHeaderFooterShow,
     setIsHeaderFooterShow,
     isLogin,
-    setIsLogin
-    
+    setIsLogin,
+    addtoCart,
+    cartData,
+    setCartData
   };
+
+
 
   return (
     <>

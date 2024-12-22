@@ -1,4 +1,5 @@
 import axios from "axios";
+require("dotenv/config");
 
 const baseURL =  "http://localhost:4000";
 
@@ -19,6 +20,30 @@ export const postData = async (url, data) => {
     } catch (error) {
         console.error(error.message);
         return { error: error.message };
+    }
+};
+
+export const postNewData = async (url,formData)=>{
+    try {
+        const response = await fetch(process.env.REACT_APP_API_URL+url,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(formData)
+        });
+        if(response.ok){
+            const data=await response.json();
+            return data;
+        }else{
+            const errorData =await response.json();
+            return errorData;
+
+        }
+        
+    } catch (error) {
+        console.error('Error:',error)
+        
     }
 };
 

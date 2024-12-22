@@ -1,28 +1,35 @@
-import {FaMinus} from "react-icons/fa6";
-import {FaPlus} from "react-icons/fa6";
+import { FaMinus } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const QuantityBox = ()=>{
+const QuantityBox = (props) => {
+  const [inputVal, setInputVal] = useState(1);
 
-const [inputVal,setInputVal] = useState(1);
+  const minus = () => {
+    // Use the functional update form of setState
+    setInputVal(prevVal => (prevVal > 1 ? prevVal - 1 : prevVal));
+    props.quantity(inputVal);
+  };
 
-const minus =()=>{
-    if(inputVal!==1 && inputVal>0){
-        setInputVal(inputVal-1);}
-    
- }
-const plus =()=>{
-    setInputVal(inputVal+1)
- }
+  const plus = () => {
+    setInputVal(prevVal => prevVal + 1);
+  };
 
-    return(
-        <div className="quantityDrop d-flex align-items-center">
-            <Button onClick={minus}><FaMinus/></Button>
-             <input type="text" value={inputVal}/>
-            <Button onClick={plus}><FaPlus/></Button>
-        </div>
-    )
-}
+  useEffect(()=>{
+    props.quantity(inputVal)
+
+  },[inputVal]);
+
+
+
+  return (
+    <div className="quantityDrop d-flex align-items-center">
+      <Button onClick={minus}><FaMinus /></Button>
+      <input type="text" value={inputVal} readOnly />
+      <Button onClick={plus}><FaPlus /></Button>
+    </div>
+  );
+};
 
 export default QuantityBox;

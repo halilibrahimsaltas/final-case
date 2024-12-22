@@ -34,8 +34,11 @@ const Header = () => {
     setIsLoggedIn(false);
     setTimeout(() => {
       navigate("/");
-    }, 1000);
-    window.location.reload();
+    }, 500);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+    
   };
 
   return (
@@ -69,8 +72,8 @@ const Header = () => {
                       <><Link to="/dashboard"><Button className="circle ml-2">
                           <FaUser />
                         </Button></Link>
-                         
-                        <Button className="cartTab mr-3 "><BsBasket3Fill /></Button>{/*<span className="count d-flex align-items-center   justify-content-center">1</span>*/}
+                         <Link to="/cart">  <Button className="cartTab mr-3 "><BsBasket3Fill /></Button></Link>
+                       {/*<span className="count d-flex align-items-center   justify-content-center">1</span>*/}
                         <Button
                           className="btn-purple  btn-round btn-lg  mt-3 mb-2 ml-4"
                           onClick={handleLogout}

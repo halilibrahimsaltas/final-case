@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { postData } from "../../utils/api";
 
-
 const SignIn = () => {
   const [error_, setError] = useState(false);
   const [success_, setSuccess] = useState(false);
+  const [falseInfo, setFalseInfo] = useState(false);
   const context = useContext(MyContext);
   const navigate = useNavigate();
 
@@ -20,9 +20,6 @@ const SignIn = () => {
     };
   }, [context]);
 
-
-
-
   const [formFields, setFormFields] = useState({
     email: "",
     password: "",
@@ -30,45 +27,47 @@ const SignIn = () => {
   const onChangeInput = (e) => {
     setFormFields({
       ...formFields,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
   const signIn = (e) => {
     e.preventDefault();
-  
+
     if (formFields.email === "" || formFields.password === "") {
       setError(true);
       return;
     } else {
       postData("/api/user/signin", formFields)
         .then((res) => {
-          console.log("API Response:", res); // Yanıtı kontrol edin
-  
+          console.log("API Response:", res);
+
           try {
-            localStorage.setItem("token", res.token);
-  
-            // result içindeki user bilgisine erişim
-            const user = {
-              name: res.result?.name,
-              email: res.result?.email,
-              userId: res.result?.id || res.result?._id
-            };
-  
-            localStorage.setItem("user", JSON.stringify(user));
-            const storedUser = JSON.parse(localStorage.getItem("user"));
-            console.log("Stored User:", storedUser);
-  
-            setError(false);
-            setSuccess(true);
-            setTimeout(() => {
-              navigate("/dashboard");
-            }, 500);
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
-            
+            if (res.result?.error) {
+              setFalseInfo(true);
+            } else {
+              localStorage.setItem("token", res.token);
+
+              // result içindeki user bilgisine erişim
+              const user = {
+                name: res.result?.name,
+                email: res.result?.email,
+                userId: res.result?.id || res.result?._id,
+              };
+
+              localStorage.setItem("user", JSON.stringify(user));
+              const storedUser = JSON.parse(localStorage.getItem("user"));
+              console.log("Stored User:", storedUser);
+              setError(false);
+              setSuccess(true);
+              setTimeout(() => {
+                navigate("/dashboard");
+              }, 500);
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
+            }
           } catch (error) {
-            console.log("Hata oluştu:", error);
+            console.log("Error signing in:", error);
           }
         })
         .catch((error) => {
@@ -90,6 +89,12 @@ const SignIn = () => {
               {success_ === true && (
                 <p className="text-success">Successfully !</p>
               )}
+              {falseInfo === true && (
+                <p className="text-danger">
+                  Wrong or Invalid Informations. Please correct and try again.
+                </p>
+              )}
+
               <div className="form-group">
                 <TextField
                   label="Email address"
