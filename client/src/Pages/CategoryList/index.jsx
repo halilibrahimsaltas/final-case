@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../Component/Dashboard/Sidebar";
 import { Button } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import { FaPen } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
 import Pagination from "@mui/material/Pagination";
@@ -16,7 +14,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 const CategoryList = () => {
   const [catData, setCatData] = useState([]);
-  const [showBy, setShowBy] = useState("");
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState(null);
   const[error_,setError]= useState(false);
@@ -118,27 +115,9 @@ const CategoryList = () => {
 
       <div className="content w-100 ">
         <div className="card shadow border-0 p-3 mt-4">
-          <h3>Category List</h3>
+          <h3> Category List</h3>
 
-          <div className="row cardFilter mt-3">
-            <div className="col">
-              <h4>Category By</h4>
-              <Select
-                value={showBy}
-                onChange={(e) => setShowBy(e.target.value)}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-                className="w-100"
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Shoes</MenuItem>
-                <MenuItem value={20}>Clothing</MenuItem>
-                <MenuItem value={30}>Personal Care</MenuItem>
-              </Select>
-            </div>
-          </div>
+         
 
           <div className="table-responsive mt-4 ">
             <table className="table table-bordered v-align ">

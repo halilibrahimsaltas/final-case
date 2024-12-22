@@ -17,6 +17,7 @@ const Home = () => {
   const [productData,setProductData] = useState([]);
 
 
+
   useEffect(() => {
     fetchDataFromApi(`/api/products/featured`).then((res) => {
       if (Array.isArray(res)) {

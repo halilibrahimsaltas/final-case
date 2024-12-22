@@ -20,7 +20,8 @@ const ProductList = () => {
         navigate(`/product/edit/${id}`);
     };
 
-  
+   
+
 
   useEffect(() => {
     window.scroll(0, 0);

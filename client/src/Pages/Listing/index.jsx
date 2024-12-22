@@ -3,17 +3,23 @@ import Button from "@mui/material/Button";
 import { IoMenuOutline } from "react-icons/io5";
 import { PiSquaresFourFill } from "react-icons/pi";
 import { CgMenuGridR } from "react-icons/cg";
-import { FaAngleDown } from "react-icons/fa6";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductItem from "../../Component/ProductItem";
 import Pagination from '@mui/material/Pagination';
 
+import { useParams } from "react-router-dom";
+import { fetchDataFromApi } from "../../utils/api";
 
 const Listing = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [productView, setProductView] = useState('three');
+    const [currentPage, setCurrentPage] = useState(1); // Track current page
+    const [productData, setProductData] = useState([]);
+    const [filters, setFilters] = useState({
+    brands: [],
+    categories: [],
+    priceRange: [0, 1000],
+     });
     const openDropdown = Boolean(anchorEl);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -21,13 +27,37 @@ const Listing = () => {
     const handleClose = () => {
       setAnchorEl(null);
     };
+    const {id}=useParams();
+
+    useEffect(() => {
+      const queryParams = new URLSearchParams();
+  
+      if (filters.brands.length) queryParams.append("brand", filters.brands.join(","));
+      if (filters.categories.length) queryParams.append("category", filters.categories.join(","));
+      queryParams.append("minPrice", filters.priceRange[0]);
+      queryParams.append("maxPrice", filters.priceRange[1]);
+  
+      fetchDataFromApi(`/api/products?${queryParams.toString()}`)
+        .then((res) => setProductData(res.products))
+        .catch((err) => console.error("Error fetching products:", err));
+    }, [filters]);
+
+
+  // Handle page change for pagination
+  const handleChange = (event, value) => {
+    fetchDataFromApi(`/api/products?page=${value}`).then((res)=>{
+      setProductData(res);
+
+    })
+};
+
   
   return (
     <div>
       <section className="product_Listing_Page">
         <div className="container">
           <div className="productListing d-flex">
-            <Sidebar />
+            <Sidebar onFilterChange ={setFilters} />
 
             <div className="content_right">
               <div className="showBy mt-3 mb-3 d-flex align-items-center">
@@ -43,49 +73,24 @@ const Listing = () => {
                   </Button>
                 </div>
 
-                <div className="ml-auto showByFilter">
-                  <Button   onClick={handleClick}>
-                    Show 9 <FaAngleDown />
-                  </Button>
-                  <Menu
-                    className="w-100 showPerDropdown"
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={openDropdown}
-                    onClose={handleClose}
-                    MenuListProps={{
-                      "aria-labelledby": "basic-button",
-                    }}
-                  >
-                    <MenuItem onClick={handleClose}>10</MenuItem>
-                    <MenuItem onClick={handleClose}>20</MenuItem>
-                    <MenuItem onClick={handleClose}>30</MenuItem>
-                    <MenuItem onClick={handleClose}>40</MenuItem>
-                    <MenuItem onClick={handleClose}>50</MenuItem>
-                  </Menu>
-                </div>
+              
               </div>
 
               <div className="productListing">
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
-                <ProductItem itemView={productView}/>
+              {productData.map((product) => (
+             <ProductItem key={product.id} item={product} itemView= {productView}/>
+              ))}
               </div>
 
               <div className="d-flex align-items-center justify-content-center mt-5">
-               <Pagination count={10} color="primary" size="large" />
+               <Pagination  
+                  count={setProductData?.totalPages} 
+                  onChange={handleChange} 
+                  color="secondary"
+                  className="pagination"
+                  showFirstButton
+                  showLastButton
+                  size="large" />
               </div>
             </div>
           </div>

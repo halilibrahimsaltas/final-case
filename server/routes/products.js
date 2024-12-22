@@ -3,33 +3,57 @@ const express = require("express");
 const router = express.Router();
 const { Category } = require("../models/category");
 
-var productEditId;
 // Get all products
 router.get("/", async (req, res) => {
-  
-  const page = parseInt(req.query.page) || 1 ;
+  const page = parseInt(req.query.page) || 1;
   const perPage = 10;
   const totalPosts = await Product.countDocuments();
-  const totalPages = Math.ceil(totalPosts/perPage);
+  const totalPages = Math.ceil(totalPosts / perPage);
 
-  if(page > totalPages){
-      return res.status(404).json({message : "Page not found"})
+  if (page > totalPages) {
+    return res.status(404).json({ message: "Page not found" });
   }
 
-  const productList = await Product.find().populate("category")
-  .skip((page - 1)* perPage)
-  .limit(perPage)
-  .exec();
+  // Set up filter criteria
+  const filter = {};
 
-  if (!productList) {
-    res.status(500).json({ success: false });
+  if (req.query.category) {
+    filter.category = { $in: req.query.category.split(",") };  // Support multiple categories
   }
-   return res.status(200).json({
-    "products":productList,
-    "totalPages":totalPages,
-    "page":page
-   });
-  
+
+  if (req.query.minPrice && req.query.maxPrice) {
+    filter.price = { $gte: req.query.minPrice, $lte: req.query.maxPrice };
+  }
+
+  if (req.query.brand) {
+    filter.brand = { $in: req.query.brand.split(",") };  // Support multiple brands
+  }
+
+  try {
+    const productList = await Product.find(filter)
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .exec();
+
+    return res.status(200).json({
+      products: productList,
+      totalPages: totalPages,
+      page: page,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Error fetching products", error });
+  }
+});
+
+router.get("/filters", async (req, res) => {
+  try {
+    const brands = await Product.distinct("brand"); // Benzersiz markalar
+    const categories = await Product.distinct("category"); // Benzersiz kategoriler
+
+    return res.status(200).json({ brands, categories });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Error fetching filters", error });
+  }
 });
 
 router.get("/featured", async (req, res) => {
@@ -51,7 +75,6 @@ router.get("/featured", async (req, res) => {
 
 // Get single product
 router.get("/:id", async (req, res) => {
-  productEditId =req.params.id;
   const product = await Product.findById(req.params.id).populate("category");
   if (!product) {
     return res.status(500).json({ success: false });

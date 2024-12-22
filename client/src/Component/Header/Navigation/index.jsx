@@ -8,6 +8,7 @@ import { FaAngleRight } from "react-icons/fa";
 const Navigation = () => {
   const [isOpenSidebarVal, setIsOpenSidebarVal] = useState(false);
 
+
   return (
     <nav>
       <div className="container">
@@ -162,7 +163,7 @@ const Navigation = () => {
                 </Link>
               </li>
               <li className="list-inline-item">
-                <Link to="/cat/1">
+                <Link to="/cat/6767166319696c44689ca691">
                   <Button>Fashion</Button>
                 </Link>
                 <div className="submenu shadow">
@@ -187,7 +188,7 @@ const Navigation = () => {
                 </div>
               </li>
               <li className="list-inline-item">
-                <Link to="/">
+                <Link to="/cat/6767167019696c44689ca693">
                   <Button>ELECTRONICS</Button>
                 </Link>
                 <div className="submenu shadow">
@@ -212,7 +213,7 @@ const Navigation = () => {
                 </div>
               </li>
               <li className="list-inline-item">
-                <Link to="/">
+                <Link to="/cat/6767167a19696c44689ca695">
                   <Button>Market</Button>
                 </Link>
                 <div className="submenu shadow">
