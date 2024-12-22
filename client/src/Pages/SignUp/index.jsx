@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { postData } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 
 const SignUp = () => {
@@ -11,8 +12,10 @@ const SignUp = () => {
   const[error_,setError]= useState(false);
   const[success_,setSuccess]=useState(false);
 
-  const context = useContext(MyContext);
+  const history =useNavigate();
 
+  const context = useContext(MyContext);
+ 
 
     const [formFields,setFormFields] = useState({
       name:"",
@@ -37,6 +40,10 @@ const SignUp = () => {
         postData("/api/user/signup",formFields).then((res)=>{
           setError(false);
           setSuccess(true);
+
+          setTimeout(()=>{
+            history("/signIn");
+          },2000);
         })
        
 

@@ -1,11 +1,17 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import MyContext from "./../../context/MyContext";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { postData } from "../../utils/api";
+import Cookies from "js-cookie";
 
 const SignIn = () => {
+  const [error_, setError] = useState(false);
+  const [success_, setSuccess] = useState(false);
   const context = useContext(MyContext);
+  const history = useNavigate();
 
   useEffect(() => {
     context.setIsHeaderFooterShow(false);
@@ -14,20 +20,43 @@ const SignIn = () => {
     };
   }, [context]);
 
+  const [formFields, setFormFields] = useState({
+    email: "",
+    password: "",
+  });
+  const onChangeInput = (e) => {
+    setFormFields(() => ({
+      ...formFields,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const signIn = (e) => {
     e.preventDefault(formFields);
 
-    if (
-      formFields.name == "" &&
-      formFields.email == "" &&
-      formFields.password == ""
-    ) {
+    if (formFields.email == "" && formFields.password == "") {
       setError(true);
       return false;
     } else {
-      postData("/api/user/signup", formFields).then((res) => {
-        setError(false);
-        setSuccess(true);
+      postData("/api/user/signin", formFields).then((res) => {
+        try {
+          localStorage.setItem("token", res.token);
+
+
+          localStorage.setItem("user", {
+            name: res.user?.name,
+            email: res.user?.email,
+            userId: res.user?.id,
+          });
+
+          setError(false);
+          setSuccess(true);
+          setTimeout(() => {
+            history("/dashboard");
+          }, 1000);
+        } catch (error) {
+          console.log(error);
+        }
       });
     }
   };
@@ -39,6 +68,12 @@ const SignIn = () => {
           <div className=" col-md-12">
             <form onSubmit={signIn}>
               <h2 className="hd">Sign In</h2>
+              {error_ === true && (
+                <p className="text-danger">Please fill all the fields</p>
+              )}
+              {success_ === true && (
+                <p className="text-success">Successfully !</p>
+              )}
               <div className="form-group">
                 <TextField
                   label="Email address"
