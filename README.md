@@ -60,3 +60,21 @@ Ensure you have the following installed:
    ```bash
    git clone https://github.com/your-username/your-repo-name.git
    cd your-repo-name
+
+###Screens
+![home1](https://github.com/user-attachments/assets/0f06db8c-ffdb-4b8f-8f72-e10b6a6766ac)
+![productdete](https://github.com/user-attachments/assets/eed546f6-5faf-41e9-b1f0-bf71f84588cd)
+![homes](https://github.com/user-attachments/assets/8c894833-cd79-4088-b1be-8ff3b7952d09)
+![prolist](https://github.com/user-attachments/assets/7a5c4869-08d8-4147-b65f-212189d0e83f)
+![footer](https://github.com/user-attachments/assets/530496bc-79e5-42a7-92c5-d991f41dcd7d)
+###.ENV
+# MongoDB configuration
+PORT= 4000
+CONNECTION_STRING = "mongodb+srv://halilaligs1430:SBIk5yJGBXZRzHom@newmind.pv5co.mongodb.net/eShopDataBase?retryWrites=true&w=majority&appName=newmind"
+
+cloudinary_cloud_name = "eShopimg"
+cloudinary_api_key = "265588333525137"
+cloudinary_api_secret = "Rhf2txLSJsJkaL3dLJiXHvPmkWI"
+
+
+JSON_WEB_TOKEN_SECRET_KEY="kalma9378"
