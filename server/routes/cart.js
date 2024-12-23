@@ -2,70 +2,43 @@ const Cart = require("../models/cart");
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-
-router.get(`/`, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const cartList = await Cart.find(req.query);
+    const cartList = await Cart.find();
 
     if (!cartList) {
-      res.status(500).json({ success: false });
+      return res.status(404).json({ success: false, message: "Cart is empty." });
     }
-    return res.status(200).json(cartList);
+
+    // Calculate total price
+    const totalPrice = cartList.reduce((acc, item) => acc + item.subTotal, 0);
+
+    res.status(200).json({ success: true, cart: cartList, totalPrice });
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching cart:", error.message);
     res.status(500).json({ success: false, error: error.message });
   }
 });
 
 router.post(`/add`, async (req, res) => {
-  const cartItem = await Cart.find(req.body.ProductId);
-
-  if (!cartItem) {
+    const cartItem = await Cart.findByIdAndDelete(req.params.id);
+    
     let cartList = new Cart({
-      productTitle: req.body.productTitle,
-      image: req.body.image,
-      price: req.body.price,
-      quantity: req.body.quantity,
-      subTotal: req.body.subTotal,
-      ProductId: req.body.productId,
-      userId: req.body.userId,
-    });
-    try {
-      if (!cartList) {
-        res.status(500).json({ success: false });
-      } else {
-        cartList = await cartList.save();
-        res.status(201).json(cartList);
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, error: error.message });
-    }
-  }else{
-    res.status(401).json({msg:"Product aldreay added in the cart"})
-  }
-});
-
-router.put("/:id", async (req, res) => {
-  const cartList = await Cart.findByIdAndUpdate(
-    req.params.id,
-    {
-      productTitle: req.body.productTitle,
-      image: req.body.image,
-      price: req.body.price,
-      quantity: req.body.quantitty,
-      subTotal: req.body.subTotal,
-      ProductId: req.body.productId,
-      userId: req.body.userId,
-    },
-    { new: true }
-  );
+    productTitle: req.body.productTitle,
+    image: req.body.image,
+    price: req.body.price,
+    quantity: req.body.quantity,
+    subTotal: req.body.subTotal,
+    ProductId: req.body.productId,
+    userId: req.body.userId,
+  });
 
   try {
     if (!cartList) {
       res.status(500).json({ success: false });
     } else {
-      res.send(added);
+      cartList = await cartList.save();
+      res.status(201).json(cartList);
     }
   } catch (error) {
     console.log(error);
@@ -73,7 +46,38 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/remove", async (req, res) => {
+router.put("/:id", async (req, res) => {
+  try {
+    // Update the cart item by ID
+    const cartList = await Cart.findByIdAndUpdate(
+      req.params.id,
+      {
+        productTitle: req.body.productTitle,
+        image: req.body.image,
+        price: req.body.price,
+        quantity: req.body.quantity, // Fixed typo
+        subTotal: req.body.subTotal,
+        ProductId: req.body.productId,
+        userId: req.body.userId,
+      },
+      { new: true } // Ensure the updated document is returned
+    );
+
+    // If no document is found, return a 404 error
+    if (!cartList) {
+      return res.status(404).json({ success: false, message: "Cart item not found." });
+    }
+
+    // Return the updated document on success
+    res.status(200).json({ success: true, data: cartList });
+  } catch (error) {
+    // Catch and log any errors, then return a 500 response
+    console.error("Error updating cart:", error.message);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
   const cartItem = await Cart.findByIdAndDelete(req.params.id);
 
   try {

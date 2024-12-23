@@ -93,7 +93,7 @@ const ProductDetails = () => {
               <p className="mt-3 description">{productData?.description}</p>
 
               <div className="d-flex align-items-center mt-4">
-                <QuantityBox  quantity={quantity}/>
+                <QuantityBox  quantity={quantity} />
                 <Button
                   onClick={() => addtoCart(productData)}
                   className="btn-purple btn-lg btn-big btn-round ml-3"

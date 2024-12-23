@@ -1,5 +1,4 @@
 import axios from "axios";
-require("dotenv/config");
 
 const baseURL =  "http://localhost:4000";
 
@@ -61,6 +60,11 @@ export const editData = async (url, updatedData) => {
     }
 };
 
+export const newEditData = async (url, updatedData) => {
+    const response = await axios.put(`${baseURL}${url}`, updatedData) 
+    return response;
+
+};
 
 export const deleteData = async (url) => {
     try {

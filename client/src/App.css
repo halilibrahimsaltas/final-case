@@ -313,7 +313,9 @@ button{text-transform: capitalize;}
 a:hover{text-decoration: none;}
 
 .cartItemimgWrapper{width: 320px;}
-.cartItemimgWrapper .imgWrapper{width: 100px;overflow: hidden;}
+.cartItemimgWrapper .imgWrapper{width: 20%;overflow: hidden;height: 80px;}
+.cartItemimgWrapper .imgWrapper img{width: 20%;overflow: hidden;height: 100%;object-fit: cover;}
+.cartItemimgWrapper .info{width: 80%;}
 .cartItemimgWrapper .info a:hover{text-decoration: none;}
 .cartItemimgWrapper .info h6{color: #292929;font-weight: bold;}
 .cartItemimgWrapper .info h6:hover{color: #7a55c1 !important;}
@@ -453,8 +455,6 @@ form .form-group textarea{height: 120px; padding-top: 15px;}
 .editModal .css-10d30g3-MuiPaper-root-MuiDialog-paper{width: 500px !important;}
 
 .imgGrid .img img{width: 47%; height: 200px; }
-
-
 
 
 

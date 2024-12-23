@@ -17,7 +17,9 @@ import ProductEdit from './Pages/ProductEdit';
 import ProductList from './Pages/ProductList';
 import CategoryAdd from './Pages/CategoryAdd';
 import CategoryList from './Pages/CategoryList';
+import Checkout from './Pages/Checkout'
 import { postData } from './utils/api';
+import Toast from "./utils/Toast";
 
 
 function App() {
@@ -25,15 +27,19 @@ function App() {
   const [isHeaderFooterShow, setIsHeaderFooterShow] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [cartData,setCartData] = useState([]);
-  const [added, setAdded] = useState(false);
+  const [toast, setToast] = useState({ message: "", isVisible: false });
  
-  const addtoCart=(data)=>  {
-      postData(`/api/cart/add`,data).then((res)=>{
-        if(res!==null &&res!==undefined &&res!==""  ){
-          setAdded(true);
-        }
-      })
-    }
+ const addtoCart = (data) => {
+  postData(`/api/cart/add`, data)
+    .then((res) => { // Remove the extra closing parenthesis
+      setToast({ message: "Product added to your cart!", isVisible: true });
+    })
+    .catch((error) => {
+      setToast({ message: "Failed to add product to cart.", isVisible: true });
+      console.error("Error adding to cart:", error);
+    });
+};
+
   const values = {
     isHeaderFooterShow,
     setIsHeaderFooterShow,
@@ -42,6 +48,9 @@ function App() {
     addtoCart,
     cartData,
     setCartData
+  };
+  const closeToast = () => {
+    setToast({ message: "", isVisible: false });
   };
 
 
@@ -64,12 +73,18 @@ function App() {
             <Route path="/product/edit/:id" exact element={<ProductEdit />} />
             <Route path="/category/add"  exact element={<CategoryAdd />} />
             <Route path="/category/list"  exact element={<CategoryList />} />
+            <Route path="/checkout"  exact element={<Checkout />} />
 
 
 
           </Routes>
         {isHeaderFooterShow===true && <Footer />}
         </MyContext.Provider>
+        <Toast
+        message={toast.message}
+        isVisible={toast.isVisible}
+        onClose={closeToast}
+      />
         </BrowserRouter>
     </>
   )
