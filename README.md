@@ -67,7 +67,7 @@ Ensure you have the following installed:
 ![homes](https://github.com/user-attachments/assets/8c894833-cd79-4088-b1be-8ff3b7952d09)
 ![prolist](https://github.com/user-attachments/assets/7a5c4869-08d8-4147-b65f-212189d0e83f)
 ![footer](https://github.com/user-attachments/assets/530496bc-79e5-42a7-92c5-d991f41dcd7d)
-###.ENV
+
 # MongoDB configuration
 PORT= 4000
 CONNECTION_STRING = "mongodb+srv://halilaligs1430:SBIk5yJGBXZRzHom@newmind.pv5co.mongodb.net/eShopDataBase?retryWrites=true&w=majority&appName=newmind"
