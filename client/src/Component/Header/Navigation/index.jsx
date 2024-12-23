@@ -32,28 +32,11 @@ const Navigation = () => {
                 </Link>
               </li>
               <li className="list-inline-item">
-                <Link to="/cat/6767166319696c44689ca691">
+                <Link to="/cat/6767167a19696c44689ca695">
                   <Button>Fashion</Button>
                 </Link>
                 <div className="submenu shadow">
-                  <Link to="/">
-                    <Button>Clothing</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Shoes</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Personal Care</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Accessories</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Personal Care</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Accessories</Button>
-                  </Link>
+            
                 </div>
               </li>
               <li className="list-inline-item">
@@ -61,75 +44,22 @@ const Navigation = () => {
                   <Button>ELECTRONICS</Button>
                 </Link>
                 <div className="submenu shadow">
-                  <Link to="/">
-                    <Button>Clothing</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Shoes</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Personal Care</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Accessories</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Personal Care</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Accessories</Button>
-                  </Link>
+          
                 </div>
               </li>
               <li className="list-inline-item">
-                <Link to="/cat/6767167a19696c44689ca695">
+                <Link to="/cat/6767166319696c44689ca691">
                   <Button>Market</Button>
                 </Link>
                 <div className="submenu shadow">
-                  <Link to="/">
-                    <Button>Clothing</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Shoes</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Personal Care</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Accessories</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Personal Care</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Accessories</Button>
-                  </Link>
+                
                 </div>
               </li>
               <li className="list-inline-item">
                 <Link to="/">
                   <Button>Gift</Button>
                 </Link>
-                <div className="submenu shadow">
-                  <Link to="/">
-                    <Button>Clothing</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Shoes</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Personal Care</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Accessories</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Personal Care</Button>
-                  </Link>
-                  <Link to="/">
-                    <Button>Accessories</Button>
-                  </Link>
-                </div>
+                
               </li>
               <li className="list-inline-item">
                 <Link to="/">

@@ -20,6 +20,8 @@ import CategoryList from './Pages/CategoryList';
 import Checkout from './Pages/Checkout'
 import { postData } from './utils/api';
 import Toast from "./utils/Toast";
+import SearchPage from './Pages/Search';
+
 
 
 function App() {
@@ -28,6 +30,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [cartData,setCartData] = useState([]);
   const [toast, setToast] = useState({ message: "", isVisible: false });
+  const [searchData,setSearchData] = useState([]);
  
  const addtoCart = (data) => {
   postData(`/api/cart/add`, data)
@@ -47,7 +50,10 @@ function App() {
     setIsLogin,
     addtoCart,
     cartData,
-    setCartData
+    setCartData,
+    searchData,
+    setSearchData
+
   };
   const closeToast = () => {
     setToast({ message: "", isVisible: false });
@@ -74,6 +80,9 @@ function App() {
             <Route path="/category/add"  exact element={<CategoryAdd />} />
             <Route path="/category/list"  exact element={<CategoryList />} />
             <Route path="/checkout"  exact element={<Checkout />} />
+            <Route path="/search"  exact element={<SearchPage />} />
+            
+            
 
 
 
