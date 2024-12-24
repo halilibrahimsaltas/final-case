@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { BsCloudUploadFill } from "react-icons/bs";
-import { editData, fetchDataFromApi } from "../../utils/api";
+import { newEditData, fetchDataFromApi } from "../../utils/api";
 import { useParams } from "react-router-dom";
 
 const ProductEdit = () => {
@@ -14,6 +14,7 @@ const ProductEdit = () => {
   const [success_, setSuccess] = useState(false);
   const [productImagesArr, setproductImagesArr] = useState([]);
   let { id } = useParams();
+  const formData = new FormData();
   
   const [formFields, setFormFields] = useState({
     name: "",
@@ -62,9 +63,9 @@ const handleChangeCategory = (event) => {
    };
 
 
- const editProduct = (id) => {
+ const editProduct = (e) => {
     e.preventDefault();
-    setError(true);
+    setError(false);
     setSuccess(false);
     const categoryId = formFields.category.id || formFields.category;
     
@@ -75,6 +76,7 @@ const handleChangeCategory = (event) => {
     formData.append("oldPrice", formFields.oldPrice);
     formData.append("category", categoryId);
     formData.append("countInStock", formFields.countInStock);
+    
 
     formFields.images = productImagesArr;
    
@@ -84,9 +86,9 @@ const handleChangeCategory = (event) => {
       formFields.countInStock !== "" &&
       formFields.price !== ""
     ) {
-        editData(`/api/products/${id}`,formFields).then((data) => {
+       newEditData(`/api/products/${id}`,formFields).then((data) => {
             setSuccess(true); 
-            setformFields({
+            setFormFields({
             name: "",
             description: "",
             brand: "",
@@ -96,13 +98,11 @@ const handleChangeCategory = (event) => {
             countInStock: 0,
             images: [],
           });
+          setproductImagesArr([]);
           })
           .catch((error) => {
               console.log(error);
           });
-         
-        }else{
-          setError(true);
         }
   };
   const addProductImages = () => {
@@ -161,7 +161,7 @@ const handleChangeCategory = (event) => {
                     <div className="form-group">
                       <h6>CATEGORY</h6>
                       <Select
-                        value={categoryVal}
+                        value={formFields.category || ''}
                         onChange={handleChangeCategory}
                         displayEmpty
                         inputProps={{ "aria-label": "Without label" }}

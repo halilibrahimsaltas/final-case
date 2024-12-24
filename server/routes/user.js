@@ -88,30 +88,31 @@ router.post('/signin', async (req, res) => {
   });
 // Update a user by ID
 router.put('/:id', async (req, res) => {
-      const {name ,email ,password} = req.body;
+  const { name, email, password ,userId} = req.body;
 
-      const userExist = await User.findById(req.params.id);
+  try {
+    const userExist = await User.findById(req.params.id);
+    if (!userExist) return res.status(404).send('User not found');
 
-      let newPassword;
-    
-    try {
-       
-        if (req.body.password) {
-            newPassword= await bcrypt.hashSync(req.body.password, 10);
-        }else{
-          newPassword = userExist.passwordHash;
-        }
+    const updateData = {
+      name: name || userExist.name,
+      email: email || userExist.email
+    };
 
-        const user = await User.findByIdAndUpdate(req.params.id,
-           req.params.id, {name:name,
-            email:email,
-            password:newPassword},{new:true});
-            
-        if (!user) return res.status(404).send('User not found');
-        res.send(user);
-    } catch (error) {
-        res.status(500).send({ message: 'Error updating user', error });
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
     }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ message: 'Error updating user', error });
+  }
 });
 
 // Delete a user by ID

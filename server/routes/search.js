@@ -17,10 +17,7 @@ router.get('/', async (req, res) => {
           { brand: { $regex: query, $options: "i" } }
         ]
       });
-   
 
-   
-   
 
     res.json(items);
   } catch (error) {

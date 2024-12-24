@@ -9,17 +9,18 @@ const Dashboard = () => {
   const [error_, setError] = useState(false);
   const [success_, setSuccess] = useState(false);
   const [userData, setUserData] = useState({
+    email:"",
     name: "",
-    email: "",
+    password:"",
     userId: ""
   });
   let { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve the stored user data from localStorage (if any)
-    const storedUserData = localStorage.getItem("userData");
-
+    const storedUserData = localStorage.getItem("user");
+    console.log("Stored User Data:", storedUserData); // Check the value in the console
+  
     if (storedUserData) {
       try {
         const parsedUserData = JSON.parse(storedUserData);
@@ -28,6 +29,8 @@ const Dashboard = () => {
       } catch (error) {
         console.error("Error parsing user data from localStorage:", error);
       }
+    } else {
+      console.log("No user data found in localStorage.");
     }
   }, []);
 
@@ -43,6 +46,8 @@ const Dashboard = () => {
 
   const editUser = (e) => {
     e.preventDefault();
+    setError(false);
+    setSuccess(false);
 
     if (userData.email === "" || userData.password === "" || userData.name === "") {
       setError(true);
@@ -56,26 +61,22 @@ const Dashboard = () => {
             if (res.result?.error) {
               setError(true);
             } else {
-              localStorage.setItem("token", res.token);
-
               // result içindeki user bilgisine erişim
-              const user = {
-                name: res.result?.name,
-                email: res.result?.email,
-                userId: res.result?.id || res.result?._id,
+              const userdata = {
+                name: res.data?.name,
+                email: res.data?.email,
+                userId: res.data?.id || res.data?._id,
               };
 
-              localStorage.setItem("userData", JSON.stringify(user));
-              const storedUser = JSON.parse(localStorage.getItem("userData"));
+              localStorage.setItem("user", JSON.stringify(userdata));
+              const storedUser = JSON.parse(localStorage.getItem("user"));
               console.log("Stored User:", storedUser);
               setError(false);
               setSuccess(true);
               setTimeout(() => {
                 navigate("/dashboard");
               }, 500);
-              setTimeout(() => {
-                window.location.reload();
-              }, 500);
+             
             }
           } catch (error) {
             console.log("Error signing in:", error);

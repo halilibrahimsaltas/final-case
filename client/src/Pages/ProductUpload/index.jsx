@@ -58,7 +58,7 @@ const ProductUpload = () => {
     ]);
   
     // Clear the input field
-    productImages.current.value = "";
+    productImages.current.value = [];
   };
 
   const inputChange = (e) => {

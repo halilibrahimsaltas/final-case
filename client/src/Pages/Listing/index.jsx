@@ -19,7 +19,7 @@ const Listing = () => {
     const [filters, setFilters] = useState({
     brands: [],
     categories: [],
-    priceRange: [0, 1000],
+    priceRange: [0, 12000],
      });
     const openDropdown = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -97,7 +97,6 @@ const Listing = () => {
              <ProductItem key={product.id} item={product} itemView= {productView}/>
               ))}
               </div>
-
               <div className="d-flex align-items-center justify-content-center mt-5">
                <Pagination  
                   count={totalPages}

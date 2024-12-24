@@ -2,6 +2,9 @@ import axios from "axios";
 
 const baseURL =  "http://localhost:4000";
 
+const payURL ="http://localhost:3001";
+
+
 export const fetchDataFromApi = async (url) => {
     try {
         const { data } = await axios.get(`${baseURL}${url}`);
@@ -21,6 +24,16 @@ export const postData = async (url, data) => {
         return { error: error.message };
     }
 };
+export const postDataPayment = async (url, data) => {
+    try {
+        const response = await axios.post(`${payURL}${url}`, data);
+        return response.data;
+    } catch (error) {
+        console.error(error.message);
+        return { error: error.message };
+    }
+};
+
 
 export const postNewData = async (url,formData)=>{
     try {
@@ -62,6 +75,12 @@ export const editData = async (url, updatedData) => {
 
 export const newEditData = async (url, updatedData) => {
     const response = await axios.put(`${baseURL}${url}`, updatedData) 
+    return response;
+
+};
+
+export const editDataPayment = async (url, updatedData) => {
+    const response = await axios.put(`${payURL}${url}`, updatedData) 
     return response;
 
 };

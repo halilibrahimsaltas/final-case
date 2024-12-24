@@ -10,19 +10,26 @@ import { useNavigate } from "react-router-dom";
 
 
 const ProductList = () => {
-  const [showBy, setshowBy] = useState("");
+
   const [productList, setProductList] = useState([]);
+  const [formFields, setformFields] = useState({
+      name: "",
+    });
+  const [categories, setCategories] = useState([]);
+  
+
 
   const navigate = useNavigate();
   const handleEdit = (id) => {
-        navigate(`/product/edit/${id}`);
-    };
-
-   
-
+    
+  
+    navigate(`/product/edit/${id}`);
+  };
+  
 
   useEffect(() => {
     window.scroll(0, 0);
+    
     fetchDataFromApi("/api/products/")
       .then((data) => {
         console.log(data);
@@ -33,6 +40,15 @@ const ProductList = () => {
       });
 
     }, []);
+
+    const getCategoryName = (itemId) => {
+      fetchDataFromApi(`/api/products/${itemId}`).then((data) => {
+        setformFields({
+          name: data.category.name
+        });
+         return formFields
+      });
+    };
 
     const deleteProduct = (id)=>{
 
@@ -56,6 +72,8 @@ const ProductList = () => {
     
         })
     };
+
+    
       
 
   return (
@@ -75,7 +93,7 @@ const ProductList = () => {
                 <tr>
                   <th className="pl-5">UID</th>
                   <th>PRODUCT</th>
-                  <th>CATEGORY</th>
+                  <th>DESCRIPTION</th>
                   <th>PRICE</th>
                   <th>STOCK</th>
                   <th>ACTION</th>
@@ -89,7 +107,7 @@ const ProductList = () => {
                       <tr key={index} >
                         <td className="pl-5">{index+1}</td>
                         <td>{item.name}</td>
-                        <td>{item.category.name}</td>
+                        <td>{item.description}</td>
                         <td>{item.price}</td>
                         <td>{item.countInStock}</td>
                         <td>

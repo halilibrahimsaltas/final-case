@@ -32,9 +32,10 @@ const SignIn = () => {
   };
   const signIn = (e) => {
     e.preventDefault();
+    setFalseInfo(false);
+    setError(false);
 
     if (formFields.email === "" || formFields.password === "") {
-      setError(true);
       return;
     } else {
       postData("/api/user/signin", formFields)
@@ -57,14 +58,20 @@ const SignIn = () => {
               localStorage.setItem("user", JSON.stringify(user));
               const storedUser = JSON.parse(localStorage.getItem("user"));
               console.log("Stored User:", storedUser);
+              if(res.token=== "" || res.token ===undefined || res.token ===null){
+                setFalseInfo(true);
+              }else{
+                 setFalseInfo(false);
               setError(false);
               setSuccess(true);
               setTimeout(() => {
-                navigate("/dashboard");
+               navigate("/dashboard");
               }, 500);
               setTimeout(() => {
-                window.location.reload();
+               window.location.reload();
               }, 500);
+              }
+             
             }
           } catch (error) {
             console.log("Error signing in:", error);
