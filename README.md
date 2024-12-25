@@ -60,7 +60,12 @@ Ensure you have the following installed:
    ```bash
    git clone https://github.com/your-username/your-repo-name.git
    cd your-repo-name
-2. npm run dev
+2. Server:
+    ```bash
+    npm start
+3. Client:
+   ```bash
+   npm run dev
 
 ### Screens
 ![home1](https://github.com/user-attachments/assets/0f06db8c-ffdb-4b8f-8f72-e10b6a6766ac)
