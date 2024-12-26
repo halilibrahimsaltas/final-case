@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { BrowserRouter,Route, Routes } from 'react-router-dom';
+import { BrowserRouter,Route, Routes,useLocation } from 'react-router-dom';
 import Home from './Pages/Home';
 import Header from './Component/Header';
 import Footer from './Component/Footer';
@@ -24,6 +24,7 @@ import SearchPage from './Pages/Search';
 
 
 
+
 function App() {
 
   const [isHeaderFooterShow, setIsHeaderFooterShow] = useState(true);
@@ -31,11 +32,13 @@ function App() {
   const [cartData,setCartData] = useState([]);
   const [toast, setToast] = useState({ message: "", isVisible: false });
   const [searchData,setSearchData] = useState([]);
+  
  
  const addtoCart = (data) => {
   postData(`/api/cart/add`, data)
     .then((res) => { // Remove the extra closing parenthesis
       setToast({ message: "Product added to your cart!", isVisible: true });
+      closeToast();
     })
     .catch((error) => {
       setToast({ message: "Failed to add product to cart.", isVisible: true });
@@ -56,7 +59,9 @@ function App() {
 
   };
   const closeToast = () => {
-    setToast({ message: "", isVisible: false });
+    setTimeout(() => {
+      setToast({ message: "", isVisible: false });
+    }, 3000); // Delay of 2000ms
   };
 
 
@@ -68,7 +73,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/"  exact element={<Home />} />
-            <Route path="/cat/:id"  exact element={<Listing />} />
+            <Route path="/cat/:id"  exact element={<DynamicListing />} />
             <Route path="/product/:id" exact  element={<ProductDetails />} />
             <Route path="/cart" exact element={<Cart />} />
             <Route path="/signIn" exact element={<SignIn />} />
@@ -96,8 +101,15 @@ function App() {
       />
         </BrowserRouter>
     </>
-  )
+  );
 };
+
+const DynamicListing = () => {
+  const location = useLocation(); // Use inside a Router context
+
+  return <Listing key={location.pathname + location.search} />;
+};
+
 
 export default App;
 

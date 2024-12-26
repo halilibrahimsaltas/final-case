@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import ProductItem from "../../Component/ProductItem";
 import Pagination from '@mui/material/Pagination';
 
-import { useParams } from "react-router-dom";
+import { useParams,  useNavigate, useLocation } from "react-router-dom";
 import { fetchDataFromApi } from "../../utils/api";
 
 const Listing = () => {
@@ -29,43 +29,52 @@ const Listing = () => {
       setAnchorEl(null);
     };
     const {id}=useParams();
+    const navigate = useNavigate();
+  const location = useLocation();
 
-    useEffect(() => {
-      /*let url =window.location.href;
-      let apiEndPoint="";
-      if(url.includes('brand')){
-        apiEndPoint=`/api/products?brand=${id}`
-      }
-      if(url.includes('category')){
-        apiEndPoint=`/api/products?category=${id}`
-      }
-      console.log(window.location.href);
-      fetchDataFromApi(`${apiEndPoint}`).then((res)=>{
-        setProductData(res);
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
 
-       }) [id]burası filters yerine*/
-      
-      const queryParams = new URLSearchParams();
-  
-      if (filters.brands.length) queryParams.append("brand", filters.brands.join(","));
-      if (filters.categories.length) queryParams.append("category", filters.categories.join(","));
-      queryParams.append("minPrice", filters.priceRange[0]);
-      queryParams.append("maxPrice", filters.priceRange[1]);
-      queryParams.append("page", page);
-  
-      fetchDataFromApi(`/api/products?${queryParams.toString()}`)
-        .then((res) => {
-          setProductData(res.products);
-          setTotalPages(res.totalPages)
-           })
-        .catch((err) => console.error("Error fetching products:", err));
-    }, [filters,page]);
+    if (filters.brands.length) {
+      queryParams.set("brand", filters.brands.join(","));
+    } else if (queryParams.has("brand")) {
+      filters.brands = queryParams.get("brand").split(",");
+    }
+
+    if (filters.categories.length) {
+      queryParams.set("category", filters.categories.join(","));
+    } else if (queryParams.has("category")) {
+      filters.categories = queryParams.get("category").split(",");
+    }
+
+    if (!filters.priceRange) {
+      filters.priceRange = [
+        parseInt(queryParams.get("minPrice")) || 0,
+        parseInt(queryParams.get("maxPrice")) || 12000,
+      ];
+    } else {
+      queryParams.set("minPrice", filters.priceRange[0]);
+      queryParams.set("maxPrice", filters.priceRange[1]);
+    }
+
+    queryParams.set("page", page);
+
+    fetchDataFromApi(`/api/products?${queryParams.toString()}`)
+      .then((res) => {
+        setProductData(res.products || []);
+        setTotalPages(res.totalPages || 0);
+      })
+      .catch((err) => console.error("Error fetching products:", err));
+  }, [filters, page, location.search]);
+
 
 
   // Handle page change for pagination
   const handleChange = (event, value) => {
     setCurrentPage(value);
-};
+  };
+
+
 
   
   return (

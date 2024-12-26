@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const baseURL =  "http://localhost:4000";
+const baseURL = import.meta.env.VITE_BASE_URL;
 
-const payURL ="http://localhost:3001";
 
 
 export const fetchDataFromApi = async (url) => {
