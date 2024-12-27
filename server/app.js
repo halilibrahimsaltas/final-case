@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv/config");
+const client = require('./elasticsearch');
 //const authJwt = require('./helper/jwt')
 
 
