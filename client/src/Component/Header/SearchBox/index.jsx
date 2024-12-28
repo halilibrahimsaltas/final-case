@@ -17,9 +17,9 @@ const Searchbox = () => {
       alert("Please enter a search term.");
       return;
     }
-
+    
     // Navigate to SearchPage with the query parameter
-    navigate(`/search?name=${searchFields}`);
+    navigate(`/search?${searchFields}`);
   };
 
   return (

@@ -25,14 +25,11 @@ const SearchPage = () => {
   useEffect(() => {
     // Extract query parameters from the URL
     const queryParams = new URLSearchParams(location.search);
-    const name = queryParams.get("name") || "";
-    const brand = queryParams.get("brand") || "";
+    const search = queryParams.get("search") || "";
 
-    // Update filters
     setFilters((prev) => ({
       ...prev,
-      name,
-      brand,
+      search,
     }));
 
     // Fetch filtered data
