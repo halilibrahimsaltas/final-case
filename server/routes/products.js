@@ -71,6 +71,26 @@ router.get("/featured", async (req, res) => {
   }
 });
 
+router.get("/api/search", async (req, res) => {
+  const { q } = req.query;
+  const filters = {};
+
+  if (q) {
+    filters.$or = [
+      { name: { $regex: q, $options: "i" } },
+      { brand: { $regex: q, $options: "i" } },
+    ];
+  }
+
+  try {
+    const products = await Product.find(filters).limit(20);
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching search results" });
+  }
+});
+
+
 
 
 // Get single product
