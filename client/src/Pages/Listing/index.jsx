@@ -28,8 +28,8 @@ const Listing = () => {
     const handleClose = () => {
       setAnchorEl(null);
     };
-    const {id}=useParams();
-    const navigate = useNavigate();
+  const {id}=useParams();
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {

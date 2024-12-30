@@ -17,6 +17,10 @@ router.get("/", async (req, res) => {
   // Set up filter criteria
   const filter = {};
 
+  if (req.query.name) {
+    filter.name = { $regex: `.*${req.query.name}.*`, $options: "i" };
+  }
+  
   if (req.query.category) {
     filter.category = { $in: req.query.category.split(",") };  // Support multiple categories
   }
@@ -71,42 +75,22 @@ router.get("/featured", async (req, res) => {
       return res.status(500).json({ success: false, message: "An error occurred", error: error.message });
   }
 });
-
 router.get("/search", async (req, res) => {
-  const { name, brand, search, page = 1, minPrice, maxPrice } = req.query;
+  const { search } = req.query;
   const filters = {};
 
-  // Combined search across name and brand
   if (search) {
-    const searchRegex = new RegExp(search, "i"); // Case-insensitive partial match
     filters.$or = [
-      { name: searchRegex },
-      { brand: searchRegex },
+      { name: { $regex: `.*${search}.*`, $options: "i" } },
+      { brand: { $regex: `.*${search}.*`, $options: "i" } },
     ];
   }
 
-  // Optional: Filter by price range
-  if (minPrice && maxPrice) {
-    filters.price = { $gte: parseFloat(minPrice), $lte: parseFloat(maxPrice) };
-  }
-
-  const perPage = 10; // Number of products per page
-  const skip = (page - 1) * perPage;
-
   try {
-    const products = await Product.find(filters)
-      .skip(skip)
-      .limit(perPage);
-
-    const totalProducts = await Product.countDocuments(filters);
-
-    res.json({
-      products,
-      totalPages: Math.ceil(totalProducts / perPage),
-      currentPage: parseInt(page),
-    });
+    const products = await Product.find(filters);
+    res.status(200).json({ products });
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error in /search route:", error);
     res.status(500).json({ error: "Failed to fetch products" });
   }
 });
