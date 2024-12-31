@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 
   if (req.query.name) {
     filter.name = { $regex: `.*${req.query.name}.*`, $options: "i" };
-  }
+  } 
   
   if (req.query.category) {
     filter.category = { $in: req.query.category.split(",") };  // Support multiple categories

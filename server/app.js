@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const producer = require('./utils/kafka/producer');
 require("dotenv/config");
 //const client = require('./utils/elasticsearch');
 //const authJwt = require('./helper/jwt')
