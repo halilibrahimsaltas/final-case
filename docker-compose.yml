@@ -26,40 +26,51 @@ services:
   client:
     build: 
       context: ./client
+      dockerfile: Dockerfile
     ports:
       - "5173:5173"
     volumes:
       - ./client:/app
       - /app/node_modules
+    restart: unless-stopped
 
   server:
     build: 
       context: ./server
+      dockerfile: Dockerfile
     ports:
       - "4000:4000"
+    env_file:
+      - .env
     environment:
       - KAFKA_BROKERS=kafka:29092
       - PORT=4000
-      - CONNECTION_STRING=mongodb+srv://...
+      - CONNECTION_STRING=${MONGODB_URI}
     depends_on:
       - kafka
     volumes:
       - ./server:/app
       - /app/node_modules
+    restart: unless-stopped
 
   payment-service:
     build: 
       context: ./payment-service
+      dockerfile: Dockerfile
     ports:
       - "3001:3001"
+    env_file:
+      - .env
     environment:
       - KAFKA_BROKERS=kafka:29092
       - PORT=3001
+      - CONNECTION_STRING=${MONGODB_URI}
     depends_on:
       - kafka
     volumes:
       - ./payment-service:/app
       - /app/node_modules
+    restart: unless-stopped
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest

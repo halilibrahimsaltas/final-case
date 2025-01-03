@@ -1,22 +1,21 @@
-const { Kafka, Partitioners } = require('kafkajs');
+const { Kafka } = require('kafkajs');
 
+// Kafka yapılandırması
 const kafka = new Kafka({
   clientId: 'my-app',
   brokers: [process.env.KAFKA_BROKERS || 'kafka:29092']
 });
 
-const producer = kafka.producer({
-  createPartitioner: Partitioners.LegacyPartitioner, // Use this if you want the legacy partitioning behavior
-});
+// Producer örneğini oluştur
+const producer = kafka.producer();
 
+// Producer'ı bağla ve mesaj gönder
 const sendMessage = async (topic, message) => {
   try {
-    // Ensure producer is connected
-    if (!producer.isConnected()) {
-      await producer.connect();
-    }
-
-    // Send message to the specified topic
+    // Producer'ı bağla
+    await producer.connect();
+    
+    // Mesajı gönder
     await producer.send({
       topic,
       messages: [
@@ -24,23 +23,26 @@ const sendMessage = async (topic, message) => {
       ],
     });
 
-    console.log('Message sent successfully');
+    console.log('Mesaj başarıyla gönderildi');
   } catch (error) {
-    console.error('Kafka producer error:', error);
+    console.error('Kafka producer hatası:', error);
+    throw error;
   }
 };
 
-// Cleanly disconnect the producer when shutting down the app
+// Bağlantıyı kapat
 const disconnectProducer = async () => {
   try {
     await producer.disconnect();
-    console.log('Producer disconnected');
+    console.log('Producer bağlantısı kapatıldı');
   } catch (error) {
-    console.error('Error disconnecting producer:', error);
+    console.error('Producer bağlantısı kapatılırken hata:', error);
+    throw error;
   }
 };
 
 module.exports = {
+  producer,
   sendMessage,
   disconnectProducer,
 };

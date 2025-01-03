@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const producer = require('./utils/kafka/producer');
+const { producer, sendMessage } = require('./utils/kafka/producer');
 require("dotenv/config");
 
 // Middlewares
@@ -25,9 +25,9 @@ app.use("/api/cart", cartRoutes);
 const initializeKafka = async () => {
   try {
     await producer.connect();
-    console.log('Kafka producer connected successfully');
+    console.log('Kafka producer bağlantısı başarılı');
   } catch (error) {
-    console.error('Kafka producer connection error:', error);
+    console.error('Kafka producer bağlantı hatası:', error);
     process.exit(1);
   }
 };
@@ -46,8 +46,20 @@ mongoose
     await initializeKafka();
     
     const PORT = process.env.PORT || 4000; // Default port 4000 olarak değiştirildi
-    app.listen(PORT, '0.0.0.0', () => { // Docker için host '0.0.0.0' olarak ayarlandı
-      console.log(`Server is running on http://localhost:${PORT}`);
+    app.listen(PORT, async () => { // Docker için host '0.0.0.0' olarak ayarlandı
+      try {
+        console.log(`Server ${PORT} portunda çalışıyor`);
+        
+        // Kafka'yı başlat
+        await initializeKafka();
+        
+        // MongoDB'ye bağlan
+        await mongoose.connect(process.env.CONNECTION_STRING);
+        console.log('Database bağlantısı hazır...');
+      } catch (error) {
+        console.error('Sunucu başlatma hatası:', error);
+        process.exit(1);
+      }
     });
   })
   .catch((err) => {
@@ -61,21 +73,16 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Graceful shutdown
-const shutdown = async () => {
-  console.log('Performing graceful shutdown...');
+// Uygulama kapatıldığında bağlantıları temizle
+process.on('SIGTERM', async () => {
   try {
-    await producer.disconnectProducer();
+    await producer.disconnect();
     await mongoose.connection.close();
-    console.log('Graceful shutdown completed');
     process.exit(0);
-  } catch (err) {
-    console.error('Error during shutdown:', err);
+  } catch (error) {
+    console.error('Kapatma hatası:', error);
     process.exit(1);
   }
-};
-
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
+});
 
 module.exports = app;

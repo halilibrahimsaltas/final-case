@@ -1,42 +1,47 @@
 const { Kafka } = require('kafkajs');
 
 const kafka = new Kafka({
-  clientId: 'payment-service-consumer',
-  brokers: [process.env.KAFKA_BROKER || 'localhost:9092']
+  clientId: 'payment-service',
+  brokers: [process.env.KAFKA_BROKERS || 'kafka:29092']
 });
 
 const consumer = kafka.consumer({ groupId: 'payment-service-group' });
 
 const runConsumer = async () => {
-  await consumer.connect();
-  console.log('Kafka consumer connected');
+  try {
+    await consumer.connect();
+    console.log('Kafka consumer bağlandı');
 
-  // İzlenecek topic'lere abone olma
-  await consumer.subscribe({ 
-    topics: ['payment-events', 'order-events'], 
-    fromBeginning: true 
-  });
+    await consumer.subscribe({ 
+      topics: ['payment-events', 'order-events'], 
+      fromBeginning: true 
+    });
 
-  await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      try {
-        const messageValue = JSON.parse(message.value.toString());
-        
-        switch (topic) {
-          case 'payment-events':
-            await handlePaymentEvent(messageValue);
-            break;
-          case 'order-events':
-            await handleOrderEvent(messageValue);
-            break;
-          default:
-            console.log(`Bilinmeyen topic: ${topic}`);
+    await consumer.run({
+      eachMessage: async ({ topic, partition, message }) => {
+        try {
+          const messageValue = JSON.parse(message.value.toString());
+          console.log(`Mesaj alındı - Topic: ${topic}`, messageValue);
+          
+          switch (topic) {
+            case 'payment-events':
+              await handlePaymentEvent(messageValue);
+              break;
+            case 'order-events':
+              await handleOrderEvent(messageValue);
+              break;
+            default:
+              console.log(`Bilinmeyen topic: ${topic}`);
+          }
+        } catch (error) {
+          console.error('Mesaj işleme hatası:', error);
         }
-      } catch (error) {
-        console.error('Mesaj işleme hatası:', error);
       }
-    }
-  });
+    });
+  } catch (error) {
+    console.error('Kafka consumer hatası:', error);
+    throw error;
+  }
 };
 
 const handlePaymentEvent = async (messageValue) => {
