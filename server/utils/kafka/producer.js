@@ -2,7 +2,7 @@ const { Kafka, Partitioners } = require('kafkajs');
 
 const kafka = new Kafka({
   clientId: 'my-app',
-  brokers: ['localhost:9092'], // Update with your Kafka broker address
+  brokers: [process.env.KAFKA_BROKERS || 'kafka:29092']
 });
 
 const producer = kafka.producer({

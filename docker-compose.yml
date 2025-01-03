@@ -36,9 +36,11 @@ services:
     build: 
       context: ./server
     ports:
-      - "3000:3000"
+      - "4000:4000"
     environment:
       - KAFKA_BROKERS=kafka:29092
+      - PORT=4000
+      - CONNECTION_STRING=mongodb+srv://...
     depends_on:
       - kafka
     volumes:
@@ -49,9 +51,10 @@ services:
     build: 
       context: ./payment-service
     ports:
-      - "4000:4000"
+      - "3001:3001"
     environment:
       - KAFKA_BROKERS=kafka:29092
+      - PORT=3001
     depends_on:
       - kafka
     volumes:

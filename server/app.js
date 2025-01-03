@@ -21,31 +21,61 @@ app.use("/api/products", productsRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/cart", cartRoutes);
 
+// Kafka producer'ı başlat
+const initializeKafka = async () => {
+  try {
+    await producer.connect();
+    console.log('Kafka producer connected successfully');
+  } catch (error) {
+    console.error('Kafka producer connection error:', error);
+    process.exit(1);
+  }
+};
+
 // Database Connection
 mongoose
-  .connect(process.env.CONNECTION_STRING) // Removed deprecated options
-  .then(() => {
+  .connect(process.env.CONNECTION_STRING, {
+    // MongoDB 8.x için önerilen yapılandırma
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+  })
+  .then(async () => {
     console.log("Database connection is ready...");
-    const PORT = process.env.PORT || 3000; // Default to 3000 if PORT is not defined
-    app.listen(PORT, () => {
+    
+    // Kafka bağlantısını başlat
+    await initializeKafka();
+    
+    const PORT = process.env.PORT || 4000; // Default port 4000 olarak değiştirildi
+    app.listen(PORT, '0.0.0.0', () => { // Docker için host '0.0.0.0' olarak ayarlandı
       console.log(`Server is running on http://localhost:${PORT}`);
     });
   })
   .catch((err) => {
     console.error("Database connection error:", err);
-    process.exit(1); // Exit on database connection error
+    process.exit(1);
   });
 
-// Graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('Received SIGTERM. Performing graceful shutdown...');
-  producer.disconnectProducer()
-    .then(() => mongoose.connection.close())
-    .then(() => process.exit(0))
-    .catch(err => {
-      console.error('Error during shutdown:', err);
-      process.exit(1);
-    });
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
+
+// Graceful shutdown
+const shutdown = async () => {
+  console.log('Performing graceful shutdown...');
+  try {
+    await producer.disconnectProducer();
+    await mongoose.connection.close();
+    console.log('Graceful shutdown completed');
+    process.exit(0);
+  } catch (err) {
+    console.error('Error during shutdown:', err);
+    process.exit(1);
+  }
+};
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
 
 module.exports = app;
