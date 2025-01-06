@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { BsReceipt } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ const Checkout = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null); // Track payment status
+  const [paymentId, setPaymentId] = useState(null);
 
   const onChangeInput = (e) => {
     setFormFields((prevFields) => ({
@@ -25,19 +26,74 @@ const Checkout = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const initiatePayment = async (formData) => {
+    try {
+      const response = await fetch('http://localhost:4000/api/payments/initiate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: totalPrice,
+          cardDetails: {
+            number: formData.number,
+            name: formData.name,
+            cardId: formData.cardId
+          },
+          shippingAddress: formData.address
+        })
+      });
+      
+      const data = await response.json();
+      return data.paymentId;
+    } catch (error) {
+      console.error('Ödeme başlatma hatası:', error);
+      throw error;
+    }
+  };
+
+  const checkPaymentStatus = async (paymentId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/payments/status/${paymentId}`);
+      const data = await response.json();
+      return data.status;
+    } catch (error) {
+      console.error('Ödeme durumu kontrol hatası:', error);
+      return 'ERROR';
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setPaymentStatus("Processing...");
 
-    // Simulate a delay (e.g., 3 seconds) before setting the payment status
-    setTimeout(() => {
-      setPaymentStatus("Payment Completed!");
-      setIsSubmitting(false);
-      navigate("/"); 
-    }, 3000); 
-     // Simulating a 3-second payment processing time
+    try {
+      // Ödemeyi başlat
+      const newPaymentId = await initiatePayment(formFields);
+      setPaymentId(newPaymentId);
 
+      // Ödeme durumunu kontrol et
+      let status;
+      const checkStatus = setInterval(async () => {
+        status = await checkPaymentStatus(newPaymentId);
+        if (status === 'COMPLETED') {
+          setPaymentStatus("Payment Completed!");
+          clearInterval(checkStatus);
+          setTimeout(() => navigate('/'), 2000);
+        } else if (status === 'FAILED') {
+          setPaymentStatus("Payment failed. Please try again.");
+          clearInterval(checkStatus);
+        }
+      }, 1000);
+
+      // 30 saniye sonra kontrolü durdur
+      setTimeout(() => clearInterval(checkStatus), 30000);
+    } catch (error) {
+      setPaymentStatus("Payment failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

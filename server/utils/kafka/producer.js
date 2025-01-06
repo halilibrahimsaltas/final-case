@@ -41,8 +41,32 @@ const disconnectProducer = async () => {
   }
 };
 
+const sendPaymentMessage = async (paymentData) => {
+  try {
+    await producer.connect();
+    await producer.send({
+      topic: 'payment-events',
+      messages: [
+        { 
+          value: JSON.stringify({
+            type: 'PAYMENT_INITIATED',
+            data: paymentData,
+            timestamp: new Date().toISOString()
+          })
+        },
+      ],
+    });
+    console.log('Ödeme başlatma mesajı gönderildi');
+    return true;
+  } catch (error) {
+    console.error('Ödeme mesajı gönderme hatası:', error);
+    throw error;
+  }
+};
+
 module.exports = {
   producer,
   sendMessage,
   disconnectProducer,
+  sendPaymentMessage
 };

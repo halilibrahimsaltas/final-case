@@ -1,4 +1,5 @@
 const { Kafka } = require('kafkajs');
+const Payment = require('../models/paymentModel');
 
 const kafka = new Kafka({
   clientId: 'payment-service',
@@ -45,8 +46,36 @@ const runConsumer = async () => {
 };
 
 const handlePaymentEvent = async (messageValue) => {
-  console.log('Ödeme olayı alındı:', messageValue);
-  // Ödeme olayı işleme mantığı buraya gelecek
+  try {
+    if (messageValue.type === 'PAYMENT_INITIATED') {
+      const paymentData = messageValue.data;
+      
+      // Yeni ödeme kaydı oluştur
+      const payment = new Payment({
+        amount: paymentData.amount,
+        cardDetails: {
+          number: paymentData.cardDetails.number,
+          name: paymentData.cardDetails.name,
+          cardId: paymentData.cardDetails.cardId
+        },
+        shippingAddress: paymentData.shippingAddress,
+        status: 'PROCESSING',
+        createdAt: new Date()
+      });
+
+      await payment.save();
+
+      // 3 saniye sonra ödemeyi tamamla
+      setTimeout(async () => {
+        payment.status = 'COMPLETED';
+        payment.completedAt = new Date();
+        await payment.save();
+        console.log(`Ödeme tamamlandı: ${payment._id}`);
+      }, 3000);
+    }
+  } catch (error) {
+    console.error('Ödeme işleme hatası:', error);
+  }
 };
 
 const handleOrderEvent = async (messageValue) => {
