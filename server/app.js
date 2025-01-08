@@ -2,22 +2,32 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const { producer, sendMessage } = require('./utils/kafka/producer');
+const { connectRedis } = require('./config/redis');
+const sessionMiddleware = require('./config/session');
+const { producer } = require('./utils/kafka/producer');
 require("dotenv/config");
+
+// Redis bağlantısı
+connectRedis();
 
 // Middlewares
 app.use(cors());
 app.options("*", cors());
-app.use(express.json()); 
+app.use(express.json());
+app.use(sessionMiddleware);
 
-// Routes
+// Routes ve cache middleware kullanımı
+const cache = require('./middleware/cache');
 const categoriesRoutes = require("./routes/categories");
 const productsRoutes = require("./routes/products");
 const userRoutes = require("./routes/user");
 const cartRoutes = require("./routes/cart");
 
-app.use("/api/categories", categoriesRoutes);
-app.use("/api/products", productsRoutes);
+// Cache'li route'lar
+app.use("/api/categories", cache(300), categoriesRoutes); // 5 dakika cache
+app.use("/api/products", cache(300), productsRoutes);
+
+// Cache'siz route'lar
 app.use("/api/user", userRoutes);
 app.use("/api/cart", cartRoutes);
 

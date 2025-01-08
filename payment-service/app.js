@@ -2,18 +2,24 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const { connectRedis } = require('./config/redis');
 const paymentRoutes = require('./routes/paymentRoutes');
 const { runConsumer } = require('./services/kafkaConsumer');
+
 dotenv.config();
-
-// Uygulama başlatma
 const app = express();
+
+// Redis ve MongoDB bağlantıları
+Promise.all([connectRedis(), connectDB()])
+  .then(() => {
+    console.log('Redis ve MongoDB bağlantıları hazır');
+  })
+  .catch(error => {
+    console.error('Bağlantı hatası:', error);
+    process.exit(1);
+  });
+
 app.use(express.json());
-
-// MongoDB bağlantısı
-connectDB();
-
-// Routes
 app.use('/api/payments', paymentRoutes);
 
 // Sunucu başlatma
